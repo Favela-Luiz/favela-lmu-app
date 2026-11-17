@@ -1,63 +1,89 @@
-# Rolle & Ziel
-Entwickle eine vollständige, eigenständige Single-File-HTML/React-Web-App (komplett in einer einzigen selbstlaufenden HTML-Datei) als **SimRacing Stint- & Strategie-Rechner für Le Mans Ultimate (LMU)** für das Team **Favela Motorsport**.
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
----
+@layer base {
+  :root {
+    --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+    --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-## 1. Technische Architektur, Sicherheit & iOS PWA-Optimierung
-- **Standalone & Offline-fähig:** Jeder Nutzer verwendet die App komplett eigenständig auf seinem eigenen Gerät. Keine Datenbank, kein Server-Backend und kein Cloud-Login.
-- **Lokaler Speicher (`localStorage`):** Alle Einstellungen (ausgewählte Strecke, Fahrzeug, Wetter, Reifenkontingent, aktive Fahrer, Prioritäten und eigene Rundenzeiten) sowie der entsperrte PIN-Status werden automatisch im `localStorage` des Browsers gespeichert, sodass beim erneuten Öffnen alles erhalten bleibt.
-- **PIN-Sperrbildschirm am Start:** Beim ersten Öffnen erscheint ein moderner iOS-Sperrbildschirm (mit Team-Logo und Ziffernblock / PIN-Eingabe). Nur mit der **PIN `1234`** wird die App freigeschaltet (inkl. „Sperren“-Button im Header).
-- **Apple iOS Progressive Web App (PWA):**
-  - Integriere alle notwendigen iOS- und PWA-Meta-Tags (`apple-mobile-web-app-capable="yes"`, `apple-mobile-web-app-status-bar-style="black-translucent"`, `apple-mobile-web-app-title="Favela LMU"`, `viewport-fit=cover`) sowie ein eingebettetes Web App Manifest (als Data-URI) und ein Apple-Touch-Icon (Favela Motorsport Logo), damit die App über iOS Safari „Zum Home-Bildschirm“ wie eine echte native Vollbild-App ohne Browserleiste läuft.
-  - Berücksichtige `env(safe-area-inset-top)` und `env(safe-area-inset-bottom)` für iPhone-Notch / Dynamic Island.
-- **Apple iOS Design-System:**
-  - Klares, modernes Design im Stil von Apple iOS (Dark Mode mit `#000000` / `#162b2d` Hintergrund, abgerundeten Karten `rounded-2xl` / `rounded-3xl`, sanften Unschärfe-Effekten `backdrop-blur-xl`, großen gut lesbaren Systemschriften `-apple-system, BlinkMacSystemFont, "SF Pro Display", Inter`, und großen Touch-Zielen von mindestens 44px Höhe).
-  - Akzentfarben des Teams **Favela Motorsport**: Brasilianisches Grün (`#009739`), Gelb (`#fedd00`), Königsblau (`#282475`) und Dunkelpetrol (`#162b2d`).
-  - Integriere das **Favela Motorsport Logo** als gestochen scharfes Vektor-SVG (oberer Bogen in Blau-Grün-Gelb, zentraler Schriftzug „FAVELA MOTORSPORT“, unterer Halbkreis in Grün-Gelb-Blau).
+    --favela-green: #009739;
+    --favela-yellow: #fedd00;
+    --favela-blue: #282475;
+    --favela-petrol: #162b2d;
+  }
 
----
+  html {
+    background-color: #000000;
+    color: #f8fafc;
+    font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+    color-scheme: dark;
+  }
 
-## 2. Le Mans Ultimate (LMU) Datenbanken (Automatische Berechnung)
-- **Strecken-Dropdown (inkl. Streckenlänge & Verbrauchsfaktor):**
-  1. Circuit de la Sarthe (Le Mans) – `13,626 km` (Faktor `1.03`)
-  2. Spa-Francorchamps – `7,004 km` (Faktor `1.02`)
-  3. Sebring International Raceway – `6,019 km` (Faktor `0.99`)
-  4. Autodromo Nazionale Monza – `5,793 km` (Faktor `1.04`)
-  5. Circuit of the Americas (COTA) – `5,513 km` (Faktor `0.98`)
-  6. Bahrain International Circuit – `5,412 km` (Faktor `1.00`)
-  7. Losail International Circuit (Katar) – `5,380 km` (Faktor `1.01`)
-  8. Autodromo Enzo e Dino Ferrari (Imola) – `4,909 km` (Faktor `0.99`)
-  9. Autódromo Internacional do Algarve (Portimão) – `4,653 km` (Faktor `0.99`)
-  10. Fuji Speedway – `4,563 km` (Faktor `1.01`)
-  11. Interlagos (Autódromo José Carlos Pace) – `4,309 km` (Faktor `0.98`)
-- **Fahrzeug-Dropdown (Individuelles Tankvolumen & spezifischer Verbrauch pro Auto):**
-  Gruppiert nach **Hypercar, LMP2, LMGT3, GTE**. Jedes Auto hat sein eigenes Tankvolumen (in Litern) und seinen eigenen Basisverbrauch (`L/km`), wodurch sich der Verbrauch pro Runde (`Streckenlänge × Basisverbrauch × Streckenfaktor × Wetterfaktor`) sowie die maximalen Runden pro Stint bei jedem Fahrzeugwechsel **automatisch** neu berechnen (manuell überschreibbar + Reset-Button):
-  - *Hypercar:* Ferrari 499P (90 L | 0.72 L/km), Toyota GR010 (90 L | 0.70 L/km), Porsche 963 (89 L | 0.74 L/km), Cadillac V-Series.R (90 L | 0.76 L/km), Peugeot 9X8 2023 (90 L | 0.73 L/km), Peugeot 9X8 2024 (90 L | 0.72 L/km), BMW M Hybrid V8 (89 L | 0.75 L/km), Alpine A424 (89 L | 0.74 L/km), Lamborghini SC63 (89 L | 0.75 L/km), Isotta Fraschini Tipo 6 (90 L | 0.73 L/km).
-  - *LMP2:* Oreca 07 Gibson (75 L | 0.65 L/km).
-  - *LMGT3:* Aston Martin Vantage AMR LMGT3 (104 L | 0.56 L/km), BMW M4 LMGT3 (105 L | 0.58 L/km), Corvette Z06 LMGT3.R (103 L | 0.60 L/km), Ferrari 296 LMGT3 (102 L | 0.55 L/km), Ford Mustang LMGT3 (106 L | 0.62 L/km), McLaren 720S LMGT3 Evo (104 L | 0.57 L/km), Porsche 911 GT3 R LMGT3 992 (101 L | 0.54 L/km), Lexus RC F LMGT3 (105 L | 0.61 L/km).
-  - *GTE:* Aston Martin Vantage GTE (98 L | 0.54 L/km), Corvette C8.R GTE (97 L | 0.57 L/km), Ferrari 488 GTE Evo (96 L | 0.53 L/km), Porsche 911 RSR-19 GTE (95 L | 0.52 L/km).
+  body {
+    background-color: #000000;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
 
----
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
 
-## 3. Session, Wetter, Reifenkontingent & Fahrer-Priorisierung
-- **Session-Auswahl:** `Training`, `Qualifying`, `Race` (iOS Segmented Control).
-- **Session-Dauer & Startzeit:** Dropdown mit typischen LMU-Dauern (20 Min, 30 Min, 45 Min, 60 Min, 90 Min, 2.4 Std, 4 Std, 6 Std, 8 Std, 12 Std, 24 Std + Benutzerdefiniert) sowie Echtzeit-Startzeit.
-- **Wetterbedingungen:** `Trocken (Slicks)`, `Leichter Regen (Mixed/Wet)` und `Starker Regen (Full Wet)` – passt Rundenzeit, Spritverbrauch und Reifenempfehlung automatisch an.
-- **Reifenkontingent:** Eingabefeld für die begrenzt verfügbaren Reifensätze pro Event (z. B. 4, 6 oder 8 Sätze). Die Strategie verteilt die Sätze intelligent auf die Stopps und zeigt klar an, wann **Reifen gewechselt** werden und wann ein **Double-Stint (nur Tanken)** gefahren wird.
-- **Fahrer-Auswahl & Rollen-Priorisierung:**
-  Anklickbare iOS-Karten für unsere 6 Fahrer (Multi-Select, damit die App weiß, wer und wie viele Fahrer fahren):
-  - `#10 Ilias Valourdos`
-  - `#17 Luiz de Souza`
-  - `#31 Alwin Orkun Bußian`
-  - `#23 Maximilian Viel`
-  - `#79 Lars Otto`
-  - `#212 Ilias Chaouch`
-  Für jeden aktiven Fahrer lässt sich eine Priorität wählen: *Standard-Rotation*, *Quali + Start (Stint 1)*, *Nur Qualifying*, *Startfahrer (Stint 1)*, *Schlussfahrer (Final Stint)* oder *Double-Stint bevorzugt*.
+  .font-mono, .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
 
----
+/* Safe Area Utilities for iPhone Notch / Dynamic Island & Home Indicator */
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
 
-## 4. Export als hochauflösendes Bild (JPEG / JPG) statt PDF
-- **Kein PDF-Export mehr!** Ersetze den Export durch einen prominenten Button **„Strategie als Bild (JPG) speichern“** (nutze `html2canvas` via CDN).
-- **Bildschirm- & Smartphone-optimiertes Export-Layout:**
-  - Beim Klick auf den Export-Button wird ein speziell für Bildschirme (iPhone, iPad, Discord, WhatsApp) optimierter, gestochen scharfer **Strategie-Snapshot** (`scale: 2` oder `3`, Format `image/jpeg`, Qualität `0.95`) gerendert und direkt als `.jpg`-Datei heruntergeladen (zusätzlich optional eine Vorschau-Modal-Ansicht zum langen Drücken / Teilen auf dem iPhone).
-  - Das exportierte JPG-Bild enthält den **Favela Motorsport Header mit Logo**, Strecke, Auto, Wetter, Fahrer-Einsatzzeiten und die komplett übersichtliche, groß und kontrastreich gesetzte **Stint-Tabelle** (Stint-Nr., Fahrer, Uhrzeit/Rennzeit, Boxenstopp-Runde, Nachzutankende Liter, Reifenwechsel & Restkontingent).
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.px-safe {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Subtle custom dark scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Shake animation for wrong PIN */
+@keyframes pin-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+.animate-pin-shake {
+  animation: pin-shake 0.36s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pin-shake {
+    animation: none;
+  }
+}
