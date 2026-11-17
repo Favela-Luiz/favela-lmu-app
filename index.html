@@ -1,89 +1,2511 @@
-@import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
+<!doctype html>
+<html lang="de" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>Favela LMU · Stint- &amp; Strategie-Rechner</title>
+    <meta
+      name="description"
+      content="Offline-fähiger SimRacing Stint- & Strategie-Rechner für Le Mans Ultimate (LMU) für das Team Favela Motorsport."
+    />
+    <meta property="og:title" content="Favela Motorsport LMU Strategie" />
+    <meta
+      property="og:description"
+      content="Offline-fähiger SimRacing Stint- & Strategie-Rechner für Le Mans Ultimate (LMU) mit iOS PWA-Unterstützung und hochauflösendem JPG-Export."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
 
-@layer base {
-  :root {
-    --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
-    --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
-    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    <!-- Apple iOS PWA Meta Tags -->
+    <meta name="theme-color" content="#000000" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Favela LMU" />
+    <link rel="apple-touch-icon" href="data:image/png;base64,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" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Ccircle cx='120' cy='120' r='114' fill='%230c1719'/%3E%3Cpath d='M32 95 A92 92 0 0 1 86 35' fill='none' stroke='%23282475' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M94 31 A92 92 0 0 1 146 31' fill='none' stroke='%23009739' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M154 35 A92 92 0 0 1 208 95' fill='none' stroke='%23fedd00' stroke-width='14' stroke-linecap='round'/%3E%3Ctext x='120' y='122' text-anchor='middle' fill='%23fff' font-family='sans-serif' font-weight='800' font-size='26'%3EFAVELA%3C/text%3E%3Ctext x='120' y='138' text-anchor='middle' fill='%23fedd00' font-family='sans-serif' font-weight='700' font-size='10'%3EMOTORSPORT%3C/text%3E%3Cpath d='M32 145 A92 92 0 0 0 86 205' fill='none' stroke='%23009739' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M94 209 A92 92 0 0 0 146 209' fill='none' stroke='%23fedd00' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M154 205 A92 92 0 0 0 208 145' fill='none' stroke='%23282475' stroke-width='14' stroke-linecap='round'/%3E%3C/svg%3E"
+    />
 
-    --favela-green: #009739;
-    --favela-yellow: #fedd00;
-    --favela-blue: #282475;
-    --favela-petrol: #162b2d;
-  }
+    <!-- Embedded Web App Manifest (Data-URI) for single-file GitHub Pages & iOS Safari -->
+    <link
+      rel="manifest"
+      href="data:application/manifest+json;charset=utf-8,%7B%22id%22%3A%22.%2F%22%2C%22name%22%3A%22Favela%20Motorsport%20LMU%20Strategie%22%2C%22short_name%22%3A%22Favela%20LMU%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%2C%22description%22%3A%22Offline-f%C3%A4higer%20SimRacing%20Stint-%20%26%20Strategie-Rechner%20f%C3%BCr%20Le%20Mans%20Ultimate.%22%7D"
+    />
 
-  html {
-    background-color: #000000;
-    color: #f8fafc;
-    font-family: var(--font-sans);
-    -webkit-tap-highlight-color: transparent;
-    color-scheme: dark;
-  }
+    <!-- Fonts: Plus Jakarta Sans + DM Sans + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
-  body {
-    background-color: #000000;
-    min-height: 100dvh;
-    overflow-x: hidden;
-  }
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', 'system-ui', 'sans-serif'],
+              sans: ['"DM Sans"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
 
-  h1, h2, h3, h4, .font-display {
-    font-family: var(--font-display);
-  }
+    <!-- React 18, ReactDOM 18, Babel Standalone & html2canvas via CDN (Zero-Build GitHub Pages Ready) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-  .font-mono, .tabular-nums {
-    font-variant-numeric: tabular-nums;
-  }
-}
+    <style>
+      :root {
+        --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+        --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
 
-/* Safe Area Utilities for iPhone Notch / Dynamic Island & Home Indicator */
-.pt-safe {
-  padding-top: env(safe-area-inset-top, 0px);
-}
+      html {
+        background-color: #000000;
+        color: #f8fafc;
+        font-family: var(--font-sans);
+        -webkit-tap-highlight-color: transparent;
+        color-scheme: dark;
+      }
 
-.pb-safe {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
+      body {
+        background-color: #000000;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        margin: 0;
+      }
 
-.px-safe {
-  padding-left: env(safe-area-inset-left, 0px);
-  padding-right: env(safe-area-inset-right, 0px);
-}
+      h1, h2, h3, h4, .font-display {
+        font-family: var(--font-display);
+      }
 
-/* Subtle custom dark scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+      .font-mono, .tabular-nums {
+        font-variant-numeric: tabular-nums;
+      }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+      .pt-safe {
+        padding-top: env(safe-area-inset-top, 0px);
+      }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.14);
-  border-radius: 9999px;
-}
+      .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
 
-/* Shake animation for wrong PIN */
-@keyframes pin-shake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-8px); }
-  40% { transform: translateX(8px); }
-  60% { transform: translateX(-6px); }
-  80% { transform: translateX(6px); }
-}
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
 
-.animate-pin-shake {
-  animation: pin-shake 0.36s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-}
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.14);
+        border-radius: 9999px;
+      }
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-pin-shake {
-    animation: none;
-  }
-}
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      @keyframes pin-shake {
+        0%, 100% { transform: translateX(0); }
+        20% { transform: translateX(-8px); }
+        40% { transform: translateX(8px); }
+        60% { transform: translateX(-6px); }
+        80% { transform: translateX(6px); }
+      }
+
+      .animate-pin-shake {
+        animation: pin-shake 0.36s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .animate-pin-shake {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-black text-white antialiased selection:bg-[#009739]/40 selection:text-white">
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useCallback, useEffect, useMemo, useRef, useState } = React;
+
+      // =========================================================================
+      // 1. INLINE VECTOR ICONS & FAVELA MOTORSPORT LOGO
+      // =========================================================================
+
+      const Icon = ({ children, className = 'w-4 h-4' }) => (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={className}
+          aria-hidden="true"
+        >
+          {children}
+        </svg>
+      );
+
+      const LockIcon = ({ className }) => (
+        <Icon className={className}>
+          <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </Icon>
+      );
+
+      const DeleteIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M10 5a2 2 0 0 0-1.344.519l-6.328 5.74a1 1 0 0 0 0 1.481l6.328 5.741A2 2 0 0 0 10 19h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z" />
+          <path d="m12 9 6 6" />
+          <path d="m18 9-6 6" />
+        </Icon>
+      );
+
+      const CameraIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+          <circle cx="12" cy="13" r="3" />
+        </Icon>
+      );
+
+      const CheckIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M20 6 9 17l-5-5" />
+        </Icon>
+      );
+
+      const ClockIcon = ({ className }) => (
+        <Icon className={className}>
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </Icon>
+      );
+
+      const SunIcon = ({ className }) => (
+        <Icon className={className}>
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2" /><path d="M12 20v2" />
+          <path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" />
+          <path d="M2 12h2" /><path d="M20 12h2" />
+          <path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" />
+        </Icon>
+      );
+
+      const CloudSunIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M12 2v2" /><path d="m4.93 4.93 1.41 1.41" />
+          <path d="M20 12h2" /><path d="m19.07 4.93-1.41 1.41" />
+          <path d="M15.947 12.65a4 4 0 0 0-5.925-4.128" />
+          <path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z" />
+        </Icon>
+      );
+
+      const CloudRainIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+          <path d="M16 14v6" /><path d="M8 14v6" /><path d="M12 16v6" />
+        </Icon>
+      );
+
+      const FuelIcon = ({ className }) => (
+        <Icon className={className}>
+          <line x1="3" x2="15" y1="22" y2="22" />
+          <line x1="4" x2="14" y1="9" y2="9" />
+          <path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18" />
+          <path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5" />
+        </Icon>
+      );
+
+      const RotateCcwIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+          <path d="M3 3v5h5" />
+        </Icon>
+      );
+
+      const ShieldAlertIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+          <path d="M12 8v4" /><path d="M12 16h.01" />
+        </Icon>
+      );
+
+      const TimerIcon = ({ className }) => (
+        <Icon className={className}>
+          <line x1="10" x2="14" y1="2" y2="2" />
+          <line x1="12" x2="15" y1="14" y2="11" />
+          <circle cx="12" cy="14" r="8" />
+        </Icon>
+      );
+
+      const UsersIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </Icon>
+      );
+
+      const WrenchIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+        </Icon>
+      );
+
+      const DownloadIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" x2="12" y1="15" y2="3" />
+        </Icon>
+      );
+
+      const ShareIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+          <polyline points="16 6 12 2 8 6" />
+          <line x1="12" x2="12" y1="2" y2="15" />
+        </Icon>
+      );
+
+      const XIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </Icon>
+      );
+
+      const WifiOffIcon = ({ className }) => (
+        <Icon className={className}>
+          <path d="M12 20h.01" />
+          <path d="M8.5 16.429a5 5 0 0 1 7 0" />
+          <path d="M5 12.859a10 10 0 0 1 5.17-2.69" />
+          <path d="M19 12.859a10 10 0 0 0-2.007-1.523" />
+          <path d="M2 8.82a15 15 0 0 1 4.177-2.643" />
+          <path d="M22 8.82a15 15 0 0 0-11.288-3.764" />
+          <path d="m2 2 20 20" />
+        </Icon>
+      );
+
+      const FavelaLogo = ({ size = 'md', className = '' }) => {
+        const sizeClasses = {
+          sm: 'w-9 h-9',
+          md: 'w-11 h-11',
+          lg: 'w-20 h-20',
+          xl: 'w-28 h-28',
+        };
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 240 240"
+            className={`${sizeClasses[size] || sizeClasses.md} shrink-0 select-none ${className}`}
+            role="img"
+            aria-label="Favela Motorsport Logo"
+          >
+            <circle cx="120" cy="120" r="114" fill="#0c1719" stroke="rgba(255,255,255,0.12)" strokeWidth="2" />
+            {/* Oberer Bogen: Blau - Grün - Gelb */}
+            <path d="M 32 95 A 92 92 0 0 1 86 35" fill="none" stroke="#282475" strokeWidth="12" strokeLinecap="round" />
+            <path d="M 94 31 A 92 92 0 0 1 146 31" fill="none" stroke="#009739" strokeWidth="12" strokeLinecap="round" />
+            <path d="M 154 35 A 92 92 0 0 1 208 95" fill="none" stroke="#fedd00" strokeWidth="12" strokeLinecap="round" />
+            {/* Trennlinien */}
+            <line x1="28" y1="103" x2="212" y2="103" stroke="rgba(255,255,255,0.16)" strokeWidth="1.2" />
+            <line x1="28" y1="139" x2="212" y2="139" stroke="rgba(255,255,255,0.16)" strokeWidth="1.2" />
+            {/* Zentraler Schriftzug */}
+            <text
+              x="120"
+              y="120"
+              textAnchor="middle"
+              fill="#ffffff"
+              fontFamily="Plus Jakarta Sans, -apple-system, BlinkMacSystemFont, sans-serif"
+              fontWeight="800"
+              fontSize="24"
+              letterSpacing="2.4"
+            >
+              FAVELA
+            </text>
+            <text
+              x="120"
+              y="134"
+              textAnchor="middle"
+              fill="#fedd00"
+              fontFamily="Plus Jakarta Sans, -apple-system, BlinkMacSystemFont, sans-serif"
+              fontWeight="700"
+              fontSize="9.5"
+              letterSpacing="3.4"
+            >
+              MOTORSPORT
+            </text>
+            {/* Unterer Halbkreis: Grün - Gelb - Blau */}
+            <path d="M 32 145 A 92 92 0 0 0 86 205" fill="none" stroke="#009739" strokeWidth="12" strokeLinecap="round" />
+            <path d="M 94 209 A 92 92 0 0 0 146 209" fill="none" stroke="#fedd00" strokeWidth="12" strokeLinecap="round" />
+            <path d="M 154 205 A 92 92 0 0 0 208 145" fill="none" stroke="#282475" strokeWidth="12" strokeLinecap="round" />
+          </svg>
+        );
+      };
+
+      // =========================================================================
+      // 2. LE MANS ULTIMATE (LMU) DATENBANKEN
+      // =========================================================================
+
+      const LMU_TRACKS = [
+        { id: 'lemans', name: 'Circuit de la Sarthe (Le Mans)', shortName: 'Le Mans', lengthKm: 13.626, fuelFactor: 1.03, hypercarDryLapSec: 206.5 },
+        { id: 'spa', name: 'Spa-Francorchamps', shortName: 'Spa', lengthKm: 7.004, fuelFactor: 1.02, hypercarDryLapSec: 125.0 },
+        { id: 'sebring', name: 'Sebring International Raceway', shortName: 'Sebring', lengthKm: 6.019, fuelFactor: 0.99, hypercarDryLapSec: 109.5 },
+        { id: 'monza', name: 'Autodromo Nazionale Monza', shortName: 'Monza', lengthKm: 5.793, fuelFactor: 1.04, hypercarDryLapSec: 96.5 },
+        { id: 'cota', name: 'Circuit of the Americas (COTA)', shortName: 'COTA', lengthKm: 5.513, fuelFactor: 0.98, hypercarDryLapSec: 112.5 },
+        { id: 'bahrain', name: 'Bahrain International Circuit', shortName: 'Bahrain', lengthKm: 5.412, fuelFactor: 1.00, hypercarDryLapSec: 108.5 },
+        { id: 'qatar', name: 'Losail International Circuit (Katar)', shortName: 'Katar (Losail)', lengthKm: 5.380, fuelFactor: 1.01, hypercarDryLapSec: 102.0 },
+        { id: 'imola', name: 'Autodromo Enzo e Dino Ferrari (Imola)', shortName: 'Imola', lengthKm: 4.909, fuelFactor: 0.99, hypercarDryLapSec: 92.5 },
+        { id: 'portimao', name: 'Autódromo Internacional do Algarve (Portimão)', shortName: 'Portimão', lengthKm: 4.653, fuelFactor: 0.99, hypercarDryLapSec: 92.0 },
+        { id: 'fuji', name: 'Fuji Speedway', shortName: 'Fuji', lengthKm: 4.563, fuelFactor: 1.01, hypercarDryLapSec: 89.5 },
+        { id: 'interlagos', name: 'Interlagos (Autódromo José Carlos Pace)', shortName: 'Interlagos', lengthKm: 4.309, fuelFactor: 0.98, hypercarDryLapSec: 85.0 },
+      ];
+
+      const CLASS_LAPTIME_MULTIPLIER = {
+        Hypercar: 1.0,
+        LMP2: 1.045,
+        GTE: 1.125,
+        LMGT3: 1.148,
+      };
+
+      const CAR_CLASSES = ['Hypercar', 'LMP2', 'LMGT3', 'GTE'];
+
+      const LMU_CARS = [
+        // Hypercar
+        { id: 'ferrari-499p', name: 'Ferrari 499P', carClass: 'Hypercar', tankCapacityL: 90, baseConsumptionLPerKm: 0.72 },
+        { id: 'toyota-gr010', name: 'Toyota GR010', carClass: 'Hypercar', tankCapacityL: 90, baseConsumptionLPerKm: 0.70 },
+        { id: 'porsche-963', name: 'Porsche 963', carClass: 'Hypercar', tankCapacityL: 89, baseConsumptionLPerKm: 0.74 },
+        { id: 'cadillac-vsr', name: 'Cadillac V-Series.R', carClass: 'Hypercar', tankCapacityL: 90, baseConsumptionLPerKm: 0.76 },
+        { id: 'peugeot-9x8-23', name: 'Peugeot 9X8 2023', carClass: 'Hypercar', tankCapacityL: 90, baseConsumptionLPerKm: 0.73 },
+        { id: 'peugeot-9x8-24', name: 'Peugeot 9X8 2024', carClass: 'Hypercar', tankCapacityL: 90, baseConsumptionLPerKm: 0.72 },
+        { id: 'bmw-m-hybrid-v8', name: 'BMW M Hybrid V8', carClass: 'Hypercar', tankCapacityL: 89, baseConsumptionLPerKm: 0.75 },
+        { id: 'alpine-a424', name: 'Alpine A424', carClass: 'Hypercar', tankCapacityL: 89, baseConsumptionLPerKm: 0.74 },
+        { id: 'lamborghini-sc63', name: 'Lamborghini SC63', carClass: 'Hypercar', tankCapacityL: 89, baseConsumptionLPerKm: 0.75 },
+        { id: 'isotta-tipo6', name: 'Isotta Fraschini Tipo 6', carClass: 'Hypercar', tankCapacityL: 90, baseConsumptionLPerKm: 0.73 },
+        // LMP2
+        { id: 'oreca-07', name: 'Oreca 07 Gibson', carClass: 'LMP2', tankCapacityL: 75, baseConsumptionLPerKm: 0.65 },
+        // LMGT3
+        { id: 'aston-lmgt3', name: 'Aston Martin Vantage AMR LMGT3', carClass: 'LMGT3', tankCapacityL: 104, baseConsumptionLPerKm: 0.56 },
+        { id: 'bmw-m4-lmgt3', name: 'BMW M4 LMGT3', carClass: 'LMGT3', tankCapacityL: 105, baseConsumptionLPerKm: 0.58 },
+        { id: 'corvette-z06-lmgt3', name: 'Corvette Z06 LMGT3.R', carClass: 'LMGT3', tankCapacityL: 103, baseConsumptionLPerKm: 0.60 },
+        { id: 'ferrari-296-lmgt3', name: 'Ferrari 296 LMGT3', carClass: 'LMGT3', tankCapacityL: 102, baseConsumptionLPerKm: 0.55 },
+        { id: 'ford-mustang-lmgt3', name: 'Ford Mustang LMGT3', carClass: 'LMGT3', tankCapacityL: 106, baseConsumptionLPerKm: 0.62 },
+        { id: 'mclaren-720s-lmgt3', name: 'McLaren 720S LMGT3 Evo', carClass: 'LMGT3', tankCapacityL: 104, baseConsumptionLPerKm: 0.57 },
+        { id: 'porsche-992-lmgt3', name: 'Porsche 911 GT3 R LMGT3 992', carClass: 'LMGT3', tankCapacityL: 101, baseConsumptionLPerKm: 0.54 },
+        { id: 'lexus-rcf-lmgt3', name: 'Lexus RC F LMGT3', carClass: 'LMGT3', tankCapacityL: 105, baseConsumptionLPerKm: 0.61 },
+        // GTE
+        { id: 'aston-gte', name: 'Aston Martin Vantage GTE', carClass: 'GTE', tankCapacityL: 98, baseConsumptionLPerKm: 0.54 },
+        { id: 'corvette-c8r-gte', name: 'Corvette C8.R GTE', carClass: 'GTE', tankCapacityL: 97, baseConsumptionLPerKm: 0.57 },
+        { id: 'ferrari-488-gte', name: 'Ferrari 488 GTE Evo', carClass: 'GTE', tankCapacityL: 96, baseConsumptionLPerKm: 0.53 },
+        { id: 'porsche-rsr-gte', name: 'Porsche 911 RSR-19 GTE', carClass: 'GTE', tankCapacityL: 95, baseConsumptionLPerKm: 0.52 },
+      ];
+
+      const WEATHER_CONDITIONS = [
+        { id: 'dry', label: 'Trocken (Slicks)', shortLabel: 'Trocken', fuelFactor: 1.0, lapTimeFactor: 1.0, tireRecommendation: 'Slicks (Medium / Hard)' },
+        { id: 'light_rain', label: 'Leichter Regen (Mixed/Wet)', shortLabel: 'Leichter Regen', fuelFactor: 0.94, lapTimeFactor: 1.08, tireRecommendation: 'Wet / Mixed' },
+        { id: 'heavy_rain', label: 'Starker Regen (Full Wet)', shortLabel: 'Starker Regen', fuelFactor: 0.88, lapTimeFactor: 1.17, tireRecommendation: 'Full Wet' },
+      ];
+
+      const DURATION_PRESETS = [
+        { id: '20m', label: '20 Min', minutes: 20 },
+        { id: '30m', label: '30 Min', minutes: 30 },
+        { id: '45m', label: '45 Min', minutes: 45 },
+        { id: '60m', label: '60 Min', minutes: 60 },
+        { id: '90m', label: '90 Min', minutes: 90 },
+        { id: '2.4h', label: '2.4 Std', minutes: 144 },
+        { id: '4h', label: '4 Std', minutes: 240 },
+        { id: '6h', label: '6 Std', minutes: 360 },
+        { id: '8h', label: '8 Std', minutes: 480 },
+        { id: '12h', label: '12 Std', minutes: 720 },
+        { id: '24h', label: '24 Std', minutes: 1440 },
+        { id: 'custom', label: 'Benutzerdefiniert', minutes: 180 },
+      ];
+
+      const TEAM_DRIVERS = [
+        { id: '10', number: '#10', name: 'Ilias Valourdos', shortName: 'I. Valourdos' },
+        { id: '17', number: '#17', name: 'Luiz de Souza', shortName: 'L. de Souza' },
+        { id: '31', number: '#31', name: 'Alwin Orkun Bußian', shortName: 'A. Bußian' },
+        { id: '45', number: '#45', name: 'Maximilian Viel', shortName: 'M. Viel' },
+        { id: '79', number: '#79', name: 'Lars Otto', shortName: 'L. Otto' },
+        { id: '212', number: '#212', name: 'Ilias Chaouch', shortName: 'I. Chaouch' },
+      ];
+
+      const PRIORITY_OPTIONS = [
+        { value: 'standard', label: 'Standard-Rotation', shortLabel: 'Rotation' },
+        { value: 'quali_start', label: 'Quali + Start (Stint 1)', shortLabel: 'Quali + Start' },
+        { value: 'quali_only', label: 'Nur Qualifying', shortLabel: 'Nur Quali' },
+        { value: 'start_stint1', label: 'Startfahrer (Stint 1)', shortLabel: 'Start (S1)' },
+        { value: 'final_stint', label: 'Schlussfahrer (Final Stint)', shortLabel: 'Schlussfahrer' },
+        { value: 'double_stint', label: 'Double-Stint bevorzugt', shortLabel: 'Double-Stint' },
+      ];
+
+      // =========================================================================
+      // 3. STRATEGIE-BERECHNUNGS-ENGINE
+      // =========================================================================
+
+      function formatLapTime(seconds) {
+        const safe = Math.max(10, seconds);
+        const mins = Math.floor(safe / 60);
+        const secs = safe - mins * 60;
+        const wholeSecs = Math.floor(secs);
+        const tenths = Math.round((secs - wholeSecs) * 10);
+        const adjSecs = tenths === 10 ? wholeSecs + 1 : wholeSecs;
+        const adjTenths = tenths === 10 ? 0 : tenths;
+        return `${mins}:${String(adjSecs).padStart(2, '0')}.${adjTenths}`;
+      }
+
+      function formatDurationHMM(seconds) {
+        const totalMins = Math.round(seconds / 60);
+        const hrs = Math.floor(totalMins / 60);
+        const mins = totalMins % 60;
+        return `${hrs}:${String(mins).padStart(2, '0')} h`;
+      }
+
+      function formatRaceElapsed(seconds) {
+        const totalMins = Math.floor(seconds / 60);
+        const hrs = Math.floor(totalMins / 60);
+        const mins = totalMins % 60;
+        return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+      }
+
+      function addSecondsToHHMM(startHHMM, addSeconds) {
+        const parts = String(startHHMM || '14:00').split(':');
+        const baseH = parseInt(parts[0] || '14', 10);
+        const baseM = parseInt(parts[1] || '0', 10);
+        const baseTotalMin = (isNaN(baseH) ? 14 : baseH) * 60 + (isNaN(baseM) ? 0 : baseM);
+        const addedMin = Math.round(addSeconds / 60);
+        const finalMin = (((baseTotalMin + addedMin) % 1440) + 1440) % 1440;
+        const h = Math.floor(finalMin / 60);
+        const m = finalMin % 60;
+        return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+      }
+
+      function calculateAutoLapTimeSec(track, car, weather) {
+        const classMult = CLASS_LAPTIME_MULTIPLIER[car.carClass] || 1.0;
+        return Number((track.hypercarDryLapSec * classMult * weather.lapTimeFactor).toFixed(1));
+      }
+
+      function calculateAutoFuelPerLap(track, car, weather) {
+        return Number(
+          (track.lengthKm * car.baseConsumptionLPerKm * track.fuelFactor * weather.fuelFactor).toFixed(2)
+        );
+      }
+
+      function buildTireChangeStopMask(totalStops, tireQuota) {
+        if (totalStops <= 0) return [];
+        const availableChanges = Math.max(0, tireQuota - 1);
+        if (availableChanges >= totalStops) return new Array(totalStops).fill(true);
+        if (availableChanges === 0) return new Array(totalStops).fill(false);
+
+        const mask = new Array(totalStops).fill(false);
+        for (let k = 1; k <= availableChanges; k++) {
+          const stopIdx = Math.min(
+            totalStops - 1,
+            Math.max(0, Math.round((k * totalStops) / (availableChanges + 1)) - 1)
+          );
+          if (!mask[stopIdx]) {
+            mask[stopIdx] = true;
+          } else {
+            for (let offset = 1; offset < totalStops; offset++) {
+              if (stopIdx + offset < totalStops && !mask[stopIdx + offset]) {
+                mask[stopIdx + offset] = true;
+                break;
+              }
+              if (stopIdx - offset >= 0 && !mask[stopIdx - offset]) {
+                mask[stopIdx - offset] = true;
+                break;
+              }
+            }
+          }
+        }
+        return mask;
+      }
+
+      function assignDriversToStints(totalStints, activeDrivers, tireChangeMask) {
+        const driverMap = new Map(TEAM_DRIVERS.map((d) => [d.id, d]));
+        const enabledConfigs = activeDrivers.filter((d) => d.active);
+        const raceEligible = enabledConfigs.filter((d) => d.priority !== 'quali_only');
+
+        if (raceEligible.length === 0) {
+          return Array.from({ length: totalStints }, () => ({
+            driver: null,
+            priority: null,
+            isDoubleContinuation: false,
+          }));
+        }
+
+        const assigned = new Array(totalStints).fill(null);
+
+        const starter =
+          raceEligible.find((d) => d.priority === 'quali_start') ||
+          raceEligible.find((d) => d.priority === 'start_stint1') ||
+          raceEligible[0];
+        assigned[0] = starter;
+
+        if (totalStints > 1) {
+          const finisher =
+            raceEligible.find((d) => d.priority === 'final_stint' && d.id !== starter.id) ||
+            raceEligible.find((d) => d.priority === 'final_stint');
+          if (finisher) {
+            assigned[totalStints - 1] = finisher;
+          }
+        }
+
+        const stintCounts = new Map();
+        raceEligible.forEach((d) => stintCounts.set(d.id, 0));
+        assigned.forEach((d) => {
+          if (d) stintCounts.set(d.id, (stintCounts.get(d.id) || 0) + 1);
+        });
+
+        if (
+          totalStints > 2 &&
+          starter.priority === 'double_stint' &&
+          assigned[1] === null &&
+          (!tireChangeMask[0] || raceEligible.length <= 2)
+        ) {
+          assigned[1] = starter;
+          stintCounts.set(starter.id, (stintCounts.get(starter.id) || 0) + 1);
+        }
+
+        for (let i = 0; i < totalStints; i++) {
+          if (assigned[i] !== null) continue;
+
+          const prevDriver = i > 0 ? assigned[i - 1] : null;
+          const prevStopNoTires = i > 0 && !tireChangeMask[i - 1];
+          const prevWasAlreadyDouble = i >= 2 && assigned[i - 1]?.id === assigned[i - 2]?.id;
+
+          if (
+            prevDriver &&
+            prevDriver.priority === 'double_stint' &&
+            !prevWasAlreadyDouble &&
+            (prevStopNoTires || raceEligible.length === 1) &&
+            i < totalStints - 1
+          ) {
+            assigned[i] = prevDriver;
+            stintCounts.set(prevDriver.id, (stintCounts.get(prevDriver.id) || 0) + 1);
+            continue;
+          }
+
+          const nextDriver = i + 1 < totalStints ? assigned[i + 1] : null;
+          const candidates = [...raceEligible].sort((a, b) => {
+            const countDiff = (stintCounts.get(a.id) || 0) - (stintCounts.get(b.id) || 0);
+            if (countDiff !== 0) return countDiff;
+            const aPenalty = (a.id === prevDriver?.id ? 2 : 0) + (a.id === nextDriver?.id ? 1 : 0);
+            const bPenalty = (b.id === prevDriver?.id ? 2 : 0) + (b.id === nextDriver?.id ? 1 : 0);
+            return aPenalty - bPenalty;
+          });
+
+          const chosen = candidates[0];
+          assigned[i] = chosen;
+          stintCounts.set(chosen.id, (stintCounts.get(chosen.id) || 0) + 1);
+        }
+
+        return assigned.map((cfg, idx) => ({
+          driver: cfg ? driverMap.get(cfg.id) || null : null,
+          priority: cfg ? cfg.priority : null,
+          isDoubleContinuation: idx > 0 && cfg !== null && assigned[idx - 1]?.id === cfg.id,
+        }));
+      }
+
+      function calculateStrategy(config, track, car, weather, durationMinutes) {
+        const warnings = [];
+        const autoFuelPerLapL = calculateAutoFuelPerLap(track, car, weather);
+        const autoLapTimeSec = calculateAutoLapTimeSec(track, car, weather);
+
+        const effectiveFuelPerLapL =
+          config.manualFuelPerLapL !== null && config.manualFuelPerLapL > 0.1
+            ? config.manualFuelPerLapL
+            : autoFuelPerLapL;
+
+        const effectiveTankVolumeL =
+          config.manualTankVolumeL !== null && config.manualTankVolumeL >= 10
+            ? config.manualTankVolumeL
+            : car.tankCapacityL;
+
+        const effectiveLapTimeSec =
+          config.manualLapTimeSec !== null && config.manualLapTimeSec >= 30
+            ? config.manualLapTimeSec
+            : autoLapTimeSec;
+
+        const usableTankL = Math.max(effectiveFuelPerLapL, effectiveTankVolumeL - config.fuelReserveL);
+        const maxLapsPerStint = Math.max(1, Math.floor(usableTankL / effectiveFuelPerLapL));
+        const stintDurationMaxSec = maxLapsPerStint * effectiveLapTimeSec;
+        const totalDurationSec = Math.max(60, durationMinutes * 60);
+
+        const isQuali = config.sessionType === 'Qualifying';
+        const isTraining = config.sessionType === 'Training';
+
+        let estimatedTotalLaps = Math.max(1, Math.ceil(totalDurationSec / effectiveLapTimeSec));
+        if (!isQuali && !isTraining && estimatedTotalLaps > maxLapsPerStint) {
+          const approxStops = Math.max(0, Math.ceil(estimatedTotalLaps / maxLapsPerStint) - 1);
+          const avgPitLoss = config.pitStopFuelTimeSec + config.pitStopTireTimeSec * 0.6;
+          const netDrivingSec = Math.max(effectiveLapTimeSec, totalDurationSec - approxStops * avgPitLoss);
+          estimatedTotalLaps = Math.max(1, Math.ceil(netDrivingSec / effectiveLapTimeSec));
+        }
+
+        let totalStints = isQuali
+          ? Math.max(1, Math.min(2, Math.ceil(durationMinutes / 15)))
+          : Math.max(1, Math.ceil(estimatedTotalLaps / maxLapsPerStint));
+
+        if (isQuali) {
+          const qualiRunLaps = Math.min(maxLapsPerStint, Math.max(3, Math.floor(estimatedTotalLaps / totalStints)));
+          estimatedTotalLaps = qualiRunLaps * totalStints;
+        }
+
+        const totalPitStops = Math.max(0, totalStints - 1);
+        const tireChangeMask = buildTireChangeStopMask(totalPitStops, config.tireQuota);
+
+        const driverMap = new Map(TEAM_DRIVERS.map((d) => [d.id, d]));
+        const activeDriverConfigs = config.drivers.filter((d) => d.active);
+        const qualiDrivers = activeDriverConfigs
+          .filter((d) => d.priority === 'quali_only' || d.priority === 'quali_start')
+          .map((d) => driverMap.get(d.id))
+          .filter(Boolean);
+
+        if (activeDriverConfigs.length === 0) {
+          warnings.push('Kein aktiver Fahrer ausgewählt. Wähle mindestens einen Fahrer für die Einsatzplanung.');
+        } else if (!isQuali && activeDriverConfigs.every((d) => d.priority === 'quali_only')) {
+          warnings.push('Alle aktiven Fahrer stehen auf „Nur Qualifying“. Weise mindestens einem Fahrer eine Rennrolle zu.');
+        }
+
+        if (totalStints > config.tireQuota && !isQuali) {
+          warnings.push(
+            `Reifenkontingent (${config.tireQuota} Sätze) ist kleiner als ${totalStints} Stints – Double-Stints ohne Reifenwechsel automatisch eingeplant.`
+          );
+        }
+
+        const assignedDrivers = isQuali
+          ? Array.from({ length: totalStints }, (_, idx) => {
+              const qDriver =
+                qualiDrivers[idx % Math.max(1, qualiDrivers.length)] ||
+                (activeDriverConfigs[0] ? driverMap.get(activeDriverConfigs[0].id) || null : null);
+              return {
+                driver: qDriver,
+                priority: qDriver ? 'quali_only' : null,
+                isDoubleContinuation: false,
+              };
+            })
+          : assignDriversToStints(totalStints, config.drivers, tireChangeMask);
+
+        const stints = [];
+        let currentLap = 1;
+        let elapsedSec = 0;
+        let currentTireSet = 1;
+        const maxTireSets = Math.max(1, config.tireQuota);
+        let remainingLaps = estimatedTotalLaps;
+
+        for (let i = 0; i < totalStints; i++) {
+          const isLast = i === totalStints - 1;
+          const lapsThisStint = isQuali
+            ? Math.max(1, Math.round(estimatedTotalLaps / totalStints))
+            : isLast
+            ? Math.max(1, remainingLaps)
+            : Math.min(maxLapsPerStint, Math.max(1, remainingLaps - (totalStints - 1 - i)));
+
+          remainingLaps = Math.max(0, remainingLaps - lapsThisStint);
+          const startLap = currentLap;
+          const endLap = currentLap + lapsThisStint - 1;
+          currentLap = endLap + 1;
+
+          const fuelNeededForThisStint = Number((lapsThisStint * effectiveFuelPerLapL + config.fuelReserveL).toFixed(1));
+          const fuelStartL = Math.min(effectiveTankVolumeL, fuelNeededForThisStint);
+          const fuelUsedL = Number((lapsThisStint * effectiveFuelPerLapL).toFixed(1));
+
+          const driveTimeSec = lapsThisStint * effectiveLapTimeSec;
+          const stintStartSec = elapsedSec;
+          const stintEndSec = elapsedSec + driveTimeSec;
+          const tireSetDuringStint = currentTireSet;
+
+          let refuelLitersAtStop = null;
+          let tireAction = 'Ziel';
+          let tiresRemainingAfterStop = Math.max(0, maxTireSets - currentTireSet);
+
+          if (!isLast) {
+            const nextLaps =
+              i + 1 === totalStints - 1
+                ? Math.max(1, remainingLaps)
+                : Math.min(maxLapsPerStint, Math.max(1, remainingLaps - (totalStints - 2 - i)));
+
+            const targetNextFuel = Math.min(
+              effectiveTankVolumeL,
+              Number((nextLaps * effectiveFuelPerLapL + config.fuelReserveL).toFixed(1))
+            );
+            const residualInTank = Math.max(0, fuelStartL - fuelUsedL);
+            refuelLitersAtStop = Number(Math.max(0, targetNextFuel - residualInTank).toFixed(1));
+
+            const changeTires = tireChangeMask[i];
+            if (changeTires && currentTireSet < maxTireSets) {
+              currentTireSet += 1;
+              tireAction = 'Reifenwechsel';
+            } else {
+              tireAction = 'Double-Stint (Nur Tanken)';
+            }
+            tiresRemainingAfterStop = Math.max(0, maxTireSets - currentTireSet);
+
+            const pitDurationSec = config.pitStopFuelTimeSec + (changeTires ? config.pitStopTireTimeSec : 0);
+            elapsedSec = stintEndSec + pitDurationSec;
+          } else {
+            elapsedSec = stintEndSec;
+          }
+
+          stints.push({
+            stintNumber: i + 1,
+            driver: assignedDrivers[i]?.driver || null,
+            driverPriority: assignedDrivers[i]?.priority || null,
+            isDoubleStintContinuation: assignedDrivers[i]?.isDoubleContinuation || false,
+            startLap,
+            endLap,
+            lapsInStint: lapsThisStint,
+            pitStopLap: isLast ? null : endLap,
+            raceTimeStartSec: stintStartSec,
+            raceTimeEndSec: stintEndSec,
+            wallClockStart: addSecondsToHHMM(config.startTimeHHMM, stintStartSec),
+            wallClockEnd: addSecondsToHHMM(config.startTimeHHMM, stintEndSec),
+            fuelStartL,
+            fuelUsedL,
+            refuelLitersAtStop,
+            tireAction: i === 0 && totalStints === 1 ? 'Start-Satz' : tireAction,
+            tireSetNumber: tireSetDuringStint,
+            tiresRemainingAfterStop,
+            stintDurationSec: driveTimeSec,
+          });
+        }
+
+        const driverSummaryMap = new Map();
+        activeDriverConfigs.forEach((cfg) => {
+          const profile = driverMap.get(cfg.id);
+          if (!profile) return;
+          driverSummaryMap.set(cfg.id, {
+            driver: profile,
+            priority: cfg.priority,
+            stintCount: 0,
+            totalLaps: 0,
+            totalDriveTimeSec: 0,
+            sharePercent: 0,
+            isQualiSpecialist: cfg.priority === 'quali_only' || cfg.priority === 'quali_start',
+          });
+        });
+
+        let totalDriveSecAll = 0;
+        stints.forEach((s) => {
+          totalDriveSecAll += s.stintDurationSec;
+          if (s.driver) {
+            const entry = driverSummaryMap.get(s.driver.id);
+            if (entry) {
+              entry.stintCount += 1;
+              entry.totalLaps += s.lapsInStint;
+              entry.totalDriveTimeSec += s.stintDurationSec;
+            }
+          }
+        });
+
+        const driverSummaries = Array.from(driverSummaryMap.values()).map((sum) => ({
+          ...sum,
+          sharePercent: totalDriveSecAll > 0 ? Math.round((sum.totalDriveTimeSec / totalDriveSecAll) * 100) : 0,
+        }));
+
+        const totalFuelNeededL = Number((estimatedTotalLaps * effectiveFuelPerLapL + config.fuelReserveL).toFixed(1));
+        const tireSetsUsed = Math.min(maxTireSets, currentTireSet);
+
+        return {
+          autoFuelPerLapL,
+          effectiveFuelPerLapL,
+          effectiveTankVolumeL,
+          autoLapTimeSec,
+          effectiveLapTimeSec,
+          maxLapsPerStint,
+          stintDurationMaxSec,
+          totalDurationSec,
+          estimatedTotalLaps,
+          totalFuelNeededL,
+          totalPitStops,
+          tireSetsUsed,
+          tireSetsRemaining: Math.max(0, maxTireSets - tireSetsUsed),
+          stints,
+          driverSummaries,
+          qualiDrivers,
+          warnings,
+        };
+      }
+
+      // =========================================================================
+      // 4. PIN-SPERRBILDSCHIRM (iOS-STYLE, PIN: 1234)
+      // =========================================================================
+
+      const VALID_PIN = '1234';
+      const KEYPAD_ROWS = [
+        [
+          { digit: '1', sub: '' },
+          { digit: '2', sub: 'ABC' },
+          { digit: '3', sub: 'DEF' },
+        ],
+        [
+          { digit: '4', sub: 'GHI' },
+          { digit: '5', sub: 'JKL' },
+          { digit: '6', sub: 'MNO' },
+        ],
+        [
+          { digit: '7', sub: 'PQRS' },
+          { digit: '8', sub: 'TUV' },
+          { digit: '9', sub: 'WXYZ' },
+        ],
+      ];
+
+      const PinLockScreen = ({ onUnlock }) => {
+        const [pin, setPin] = useState('');
+        const [errorShake, setErrorShake] = useState(false);
+        const [errorMsg, setErrorMsg] = useState(null);
+        const [now, setNow] = useState(() => new Date());
+
+        useEffect(() => {
+          const timer = window.setInterval(() => setNow(new Date()), 15000);
+          return () => window.clearInterval(timer);
+        }, []);
+
+        const handleDigit = useCallback(
+          (digit) => {
+            if (errorShake) return;
+            setErrorMsg(null);
+            setPin((prev) => {
+              if (prev.length >= 4) return prev;
+              const next = prev + digit;
+              if (next.length === 4) {
+                if (next === VALID_PIN) {
+                  window.setTimeout(() => onUnlock(), 140);
+                } else {
+                  setErrorShake(true);
+                  setErrorMsg('Falsche PIN. Bitte erneut versuchen.');
+                  window.setTimeout(() => {
+                    setPin('');
+                    setErrorShake(false);
+                  }, 420);
+                }
+              }
+              return next;
+            });
+          },
+          [errorShake, onUnlock]
+        );
+
+        const handleBackspace = useCallback(() => {
+          setErrorMsg(null);
+          setPin((prev) => prev.slice(0, -1));
+        }, []);
+
+        useEffect(() => {
+          const onKeyDown = (e) => {
+            if (e.key >= '0' && e.key <= '9') {
+              handleDigit(e.key);
+            } else if (e.key === 'Backspace') {
+              handleBackspace();
+            }
+          };
+          window.addEventListener('keydown', onKeyDown);
+          return () => window.removeEventListener('keydown', onKeyDown);
+        }, [handleDigit, handleBackspace]);
+
+        const timeFormatted = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+        const dateFormatted = now.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
+
+        return (
+          <div
+            className="fixed inset-0 z-50 flex flex-col items-center justify-between bg-black text-white pt-safe pb-safe px-6 overflow-y-auto"
+            style={{
+              backgroundImage: 'radial-gradient(circle at 50% 18%, rgba(22, 43, 45, 0.85) 0%, rgba(0, 0, 0, 1) 68%)',
+            }}
+          >
+            <div className="flex flex-col items-center pt-6 sm:pt-10 text-center">
+              <div className="flex items-center gap-2 text-xs text-slate-400 mb-3">
+                <LockIcon className="w-3.5 h-3.5 text-[#fedd00]" />
+                <span>Favela Motorsport</span>
+                <span aria-hidden="true">·</span>
+                <span>LMU Strategie-Terminal</span>
+              </div>
+              <div className="font-mono text-5xl sm:text-6xl font-semibold tracking-tight tabular-nums text-white">
+                {timeFormatted}
+              </div>
+              <div className="mt-1 text-sm text-slate-300 capitalize">{dateFormatted}</div>
+              <div className="mt-6">
+                <FavelaLogo size="lg" />
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center my-4">
+              <p className="text-sm font-medium text-slate-200 mb-4">Team-PIN eingeben</p>
+              <div
+                className={`flex items-center gap-5 ${errorShake ? 'animate-pin-shake' : ''}`}
+                role="status"
+                aria-live="polite"
+                aria-label={`${pin.length} von 4 Ziffern eingegeben`}
+              >
+                {[0, 1, 2, 3].map((index) => {
+                  const filled = index < pin.length;
+                  return (
+                    <div
+                      key={index}
+                      className={`w-4 h-4 rounded-full border transition-all duration-150 ${
+                        filled
+                          ? 'bg-[#009739] border-[#009739] scale-110 shadow-[0_0_12px_rgba(0,151,57,0.55)]'
+                          : 'bg-transparent border-white/40'
+                      }`}
+                    />
+                  );
+                })}
+              </div>
+              <div className="h-5 mt-3 text-xs text-rose-400 font-medium">{errorMsg || ''}</div>
+            </div>
+
+            <div className="w-full max-w-[300px] pb-6 sm:pb-10">
+              <div className="grid grid-cols-3 gap-x-6 gap-y-4 justify-items-center">
+                {KEYPAD_ROWS.flat().map((item) => (
+                  <button
+                    key={item.digit}
+                    type="button"
+                    onClick={() => handleDigit(item.digit)}
+                    className="w-[74px] h-[74px] rounded-full bg-white/[0.1] hover:bg-white/[0.18] active:bg-white/[0.28] active:scale-95 backdrop-blur-xl border border-white/[0.08] flex flex-col items-center justify-center transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fedd00]"
+                  >
+                    <span className="font-mono text-2xl font-medium leading-none text-white">{item.digit}</span>
+                    {item.sub ? (
+                      <span className="mt-1 text-[9px] tracking-[0.18em] text-slate-400 font-medium">{item.sub}</span>
+                    ) : null}
+                  </button>
+                ))}
+                <div className="w-[74px] h-[74px] flex items-center justify-center">
+                  <span className="text-[11px] text-slate-500 font-mono">PIN</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleDigit('0')}
+                  className="w-[74px] h-[74px] rounded-full bg-white/[0.1] hover:bg-white/[0.18] active:bg-white/[0.28] active:scale-95 backdrop-blur-xl border border-white/[0.08] flex items-center justify-center transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fedd00]"
+                >
+                  <span className="font-mono text-2xl font-medium leading-none text-white">0</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleBackspace}
+                  disabled={pin.length === 0}
+                  aria-label="Ziffer löschen"
+                  className="w-[74px] h-[74px] rounded-full flex items-center justify-center text-slate-300 hover:text-white active:scale-95 disabled:opacity-30 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fedd00]"
+                >
+                  <DeleteIcon className="w-6 h-6" />
+                </button>
+              </div>
+              <p className="mt-5 text-center text-xs text-slate-500">Lokale Offline-Sitzung · PIN 1234</p>
+            </div>
+          </div>
+        );
+      };
+
+      // =========================================================================
+      // 5. PWA INSTALL BUTTON & OFFLINE INDICATOR
+      // =========================================================================
+
+      const PWAInstallButton = () => {
+        const [deferredPrompt, setDeferredPrompt] = useState(null);
+        const [isInstalled, setIsInstalled] = useState(false);
+        const [isIOS, setIsIOS] = useState(false);
+        const [showIOSGuide, setShowIOSGuide] = useState(false);
+
+        useEffect(() => {
+          const isStandalone =
+            window.matchMedia('(display-mode: standalone)').matches ||
+            window.navigator.standalone === true;
+          setIsInstalled(isStandalone);
+
+          const ua = window.navigator.userAgent.toLowerCase();
+          setIsIOS(/iphone|ipad|ipod/.test(ua));
+
+          const onBeforeInstall = (e) => {
+            e.preventDefault();
+            setDeferredPrompt(e);
+          };
+          const onInstalled = () => {
+            setIsInstalled(true);
+            setDeferredPrompt(null);
+          };
+          window.addEventListener('beforeinstallprompt', onBeforeInstall);
+          window.addEventListener('appinstalled', onInstalled);
+          return () => {
+            window.removeEventListener('beforeinstallprompt', onBeforeInstall);
+            window.removeEventListener('appinstalled', onInstalled);
+          };
+        }, []);
+
+        if (isInstalled) return null;
+
+        if (deferredPrompt) {
+          return (
+            <button
+              type="button"
+              onClick={async () => {
+                await deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                  setIsInstalled(true);
+                  setDeferredPrompt(null);
+                }
+              }}
+              className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#162b2d] hover:bg-[#1f3b3e] border border-white/10 px-3.5 py-2 text-xs font-medium text-white transition-colors whitespace-nowrap shrink-0"
+            >
+              <DownloadIcon className="w-4 h-4 text-[#fedd00]" />
+              <span>App installieren</span>
+            </button>
+          );
+        }
+
+        if (isIOS) {
+          return (
+            <>
+              <button
+                type="button"
+                onClick={() => setShowIOSGuide(true)}
+                className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#162b2d] hover:bg-[#1f3b3e] border border-white/10 px-3.5 py-2 text-xs font-medium text-slate-200 transition-colors whitespace-nowrap shrink-0"
+              >
+                <ShareIcon className="w-4 h-4 text-[#fedd00]" />
+                <span>Home-Bildschirm</span>
+              </button>
+              {showIOSGuide && (
+                <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/75 backdrop-blur-md p-4">
+                  <div className="w-full max-w-sm rounded-3xl bg-[#111a1c] border border-white/10 p-6 shadow-2xl">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-base font-semibold text-white">Auf iPhone / iPad installieren</h3>
+                      <button
+                        type="button"
+                        onClick={() => setShowIOSGuide(false)}
+                        aria-label="Schließen"
+                        className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-slate-400 hover:text-white"
+                      >
+                        <XIcon className="w-5 h-5" />
+                      </button>
+                    </div>
+                    <ol className="mt-4 space-y-3 text-sm text-slate-300">
+                      <li>1. Tippe in der Safari-Leiste auf das <strong className="text-white">Teilen-Symbol</strong>.</li>
+                      <li>2. Scrolle nach unten und wähle <strong className="text-white">Zum Home-Bildschirm</strong>.</li>
+                      <li>3. Bestätige oben rechts mit <strong className="text-[#009739]">Hinzufügen</strong>.</li>
+                    </ol>
+                    <button
+                      type="button"
+                      onClick={() => setShowIOSGuide(false)}
+                      className="mt-6 w-full min-h-[44px] rounded-2xl bg-[#009739] hover:bg-[#00b044] text-sm font-semibold text-white transition-colors"
+                    >
+                      Verstanden
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
+          );
+        }
+
+        return null;
+      };
+
+      const OfflineIndicator = () => {
+        const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
+        useEffect(() => {
+          const onOnline = () => setIsOnline(true);
+          const onOffline = () => setIsOnline(false);
+          window.addEventListener('online', onOnline);
+          window.addEventListener('offline', onOffline);
+          return () => {
+            window.removeEventListener('online', onOnline);
+            window.removeEventListener('offline', onOffline);
+          };
+        }, []);
+
+        if (isOnline) return null;
+        return (
+          <div className="fixed bottom-4 left-4 z-40 flex items-center gap-2 rounded-2xl bg-[#162b2d]/95 backdrop-blur-xl border border-[#fedd00]/40 px-4 py-2.5 text-xs font-medium text-white shadow-xl">
+            <WifiOffIcon className="w-4 h-4 text-[#fedd00] shrink-0" />
+            <span>Offline-Modus aktiv · Alle Daten lokal gespeichert</span>
+          </div>
+        );
+      };
+
+      // =========================================================================
+      // 6. HIGH-RES JPG SNAPSHOT VIEW & PREVIEW MODAL (html2canvas)
+      // =========================================================================
+
+      const ExportSnapshotView = ({ captureRef, config, track, car, weather, durationMinutes, result }) => {
+        const priorityLabel = (p) => PRIORITY_OPTIONS.find((o) => o.value === p)?.shortLabel || 'Rotation';
+        const durationText =
+          durationMinutes >= 60
+            ? `${(durationMinutes / 60).toFixed(durationMinutes % 60 === 0 ? 0 : 1)} Std (${durationMinutes} Min)`
+            : `${durationMinutes} Min`;
+
+        return (
+          <div style={{ position: 'fixed', left: '-9999px', top: 0, zIndex: -1, pointerEvents: 'none' }} aria-hidden="true">
+            <div
+              ref={captureRef}
+              style={{
+                width: '960px',
+                backgroundColor: '#050809',
+                color: '#f8fafc',
+                fontFamily: '"DM Sans", -apple-system, BlinkMacSystemFont, sans-serif',
+                padding: '36px',
+                boxSizing: 'border-box',
+              }}
+            >
+              <div style={{ display: 'flex', height: '6px', width: '100%', borderRadius: '4px', overflow: 'hidden', marginBottom: '26px' }}>
+                <div style={{ flex: 1, backgroundColor: '#282475' }} />
+                <div style={{ flex: 1, backgroundColor: '#009739' }} />
+                <div style={{ flex: 1, backgroundColor: '#fedd00' }} />
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingBottom: '22px',
+                  borderBottom: '1px solid rgba(255,255,255,0.12)',
+                  marginBottom: '24px',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
+                  <FavelaLogo size="lg" />
+                  <div>
+                    <div style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.14em', color: '#fedd00', textTransform: 'uppercase', marginBottom: '4px' }}>
+                      Le Mans Ultimate · Rennstrategie
+                    </div>
+                    <div style={{ fontFamily: '"Plus Jakarta Sans", -apple-system, sans-serif', fontSize: '28px', fontWeight: 800, color: '#ffffff', lineHeight: 1.15 }}>
+                      Favela Motorsport
+                    </div>
+                    <div style={{ fontSize: '14px', color: '#94a3b8', marginTop: '4px' }}>
+                      {track.name} · {car.name}
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: '20px', fontWeight: 700, color: '#009739', fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
+                    {config.sessionType} · {durationText}
+                  </div>
+                  <div style={{ fontSize: '14px', color: '#cbd5e1', marginTop: '4px', fontFamily: '"JetBrains Mono", monospace' }}>
+                    Start {config.startTimeHHMM} Uhr · {weather.label}
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>
+                    Erstellt am {new Date().toLocaleDateString('de-DE')}
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                {[
+                  { label: 'Strecke & Klasse', value: `${track.lengthKm.toFixed(3)} km`, sub: `${car.carClass} · Faktor ${track.fuelFactor.toFixed(2)}` },
+                  { label: 'Spritverbrauch', value: `${result.effectiveFuelPerLapL.toFixed(2)} L/Rd`, sub: `Tank ${result.effectiveTankVolumeL} L · Res. ${config.fuelReserveL} L` },
+                  { label: 'Stint-Kapazität', value: `${result.maxLapsPerStint} Runden`, sub: `Runde ${formatLapTime(result.effectiveLapTimeSec)} · ~${Math.round(result.stintDurationMaxSec / 60)} Min` },
+                  { label: 'Boxen & Reifen', value: `${result.totalPitStops} Stopps`, sub: `${result.tireSetsUsed}/${config.tireQuota} Sätze · ${weather.tireRecommendation}` },
+                ].map((item, idx) => (
+                  <div key={idx} style={{ backgroundColor: '#111a1c', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: '14px 16px' }}>
+                    <div style={{ fontSize: '12px', color: '#94a3b8', marginBottom: '6px' }}>{item.label}</div>
+                    <div style={{ fontSize: '20px', fontWeight: 700, color: '#ffffff', fontFamily: '"JetBrains Mono", monospace' }}>{item.value}</div>
+                    <div style={{ fontSize: '12px', color: '#cbd5e1', marginTop: '4px' }}>{item.sub}</div>
+                  </div>
+                ))}
+              </div>
+
+              {result.driverSummaries.length > 0 && (
+                <div style={{ marginBottom: '24px' }}>
+                  <div style={{ fontSize: '14px', fontWeight: 700, color: '#fedd00', marginBottom: '10px', letterSpacing: '0.04em' }}>
+                    Fahrer-Einsatzzeiten
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                    {result.driverSummaries.map((ds) => (
+                      <div
+                        key={ds.driver.id}
+                        style={{
+                          backgroundColor: '#101d20',
+                          border: '1px solid rgba(255,255,255,0.09)',
+                          borderRadius: '12px',
+                          padding: '10px 14px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <div>
+                          <div style={{ fontSize: '14px', fontWeight: 700, color: '#ffffff' }}>
+                            <span style={{ color: '#fedd00', fontFamily: '"JetBrains Mono", monospace' }}>{ds.driver.number}</span>{' '}
+                            {ds.driver.name}
+                          </div>
+                          <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '2px' }}>{priorityLabel(ds.priority)}</div>
+                        </div>
+                        <div style={{ textAlign: 'right', fontFamily: '"JetBrains Mono", monospace' }}>
+                          <div style={{ fontSize: '14px', fontWeight: 700, color: '#00c44b' }}>
+                            {ds.stintCount} {ds.stintCount === 1 ? 'Stint' : 'Stints'}
+                          </div>
+                          <div style={{ fontSize: '12px', color: '#cbd5e1' }}>
+                            {ds.priority === 'quali_only'
+                              ? 'Quali-Fokus'
+                              : `${formatDurationHMM(ds.totalDriveTimeSec)} (${ds.sharePercent}%)`}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div style={{ backgroundColor: '#0e1618', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '16px', overflow: 'hidden' }}>
+                <div
+                  style={{
+                    padding: '14px 18px',
+                    backgroundColor: '#162b2d',
+                    borderBottom: '1px solid rgba(255,255,255,0.12)',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <div style={{ fontSize: '16px', fontWeight: 700, color: '#ffffff' }}>
+                    Stint- &amp; Boxenstopp-Plan ({result.stints.length} Stints · ~{result.estimatedTotalLaps} Runden)
+                  </div>
+                  <div style={{ fontSize: '13px', color: '#fedd00', fontFamily: '"JetBrains Mono", monospace' }}>
+                    Gesamtsprit: ~{result.totalFuelNeededL.toFixed(0)} L
+                  </div>
+                </div>
+
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                  <thead>
+                    <tr style={{ backgroundColor: '#101a1c', borderBottom: '1px solid rgba(255,255,255,0.12)', fontSize: '12px', color: '#94a3b8', fontWeight: 700 }}>
+                      <th style={{ padding: '12px 14px' }}>Stint</th>
+                      <th style={{ padding: '12px 14px' }}>Fahrer</th>
+                      <th style={{ padding: '12px 14px' }}>Uhrzeit / Rennzeit</th>
+                      <th style={{ padding: '12px 14px', textAlign: 'right' }}>Boxenstopp-Runde</th>
+                      <th style={{ padding: '12px 14px', textAlign: 'right' }}>Nachtanken</th>
+                      <th style={{ padding: '12px 14px' }}>Reifen &amp; Restkontingent</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {result.stints.map((row, index) => {
+                      const isEven = index % 2 === 0;
+                      const isTireChange = row.tireAction === 'Reifenwechsel';
+                      const isDouble = row.tireAction === 'Double-Stint (Nur Tanken)';
+                      return (
+                        <tr
+                          key={row.stintNumber}
+                          style={{
+                            backgroundColor: isEven ? '#0e1618' : '#121d20',
+                            borderBottom: index < result.stints.length - 1 ? '1px solid rgba(255,255,255,0.07)' : 'none',
+                            fontSize: '14px',
+                          }}
+                        >
+                          <td style={{ padding: '12px 14px', fontWeight: 700, fontFamily: '"JetBrains Mono", monospace', color: '#ffffff' }}>
+                            #{row.stintNumber}
+                            <span style={{ display: 'block', fontSize: '11px', color: '#94a3b8', fontWeight: 500 }}>
+                              {row.lapsInStint} Rd ({row.startLap}–{row.endLap})
+                            </span>
+                          </td>
+                          <td style={{ padding: '12px 14px', fontWeight: 600, color: '#ffffff' }}>
+                            {row.driver ? (
+                              <div>
+                                <span style={{ color: '#fedd00', fontFamily: '"JetBrains Mono", monospace' }}>{row.driver.number}</span>{' '}
+                                {row.driver.name}
+                                {row.isDoubleStintContinuation && (
+                                  <span style={{ display: 'block', fontSize: '11px', color: '#34d399' }}>Double-Stint Fortsetzung</span>
+                                )}
+                              </div>
+                            ) : (
+                              <span style={{ color: '#64748b' }}>Nicht zugewiesen</span>
+                            )}
+                          </td>
+                          <td style={{ padding: '12px 14px', fontFamily: '"JetBrains Mono", monospace', color: '#e2e8f0' }}>
+                            <div>{row.wallClockStart} – {row.wallClockEnd}</div>
+                            <div style={{ fontSize: '11px', color: '#94a3b8' }}>
+                              Rennzeit {formatRaceElapsed(row.raceTimeStartSec)} – {formatRaceElapsed(row.raceTimeEndSec)}
+                            </div>
+                          </td>
+                          <td
+                            style={{
+                              padding: '12px 14px',
+                              textAlign: 'right',
+                              fontFamily: '"JetBrains Mono", monospace',
+                              fontWeight: 700,
+                              color: row.pitStopLap !== null ? '#fedd00' : '#00c44b',
+                            }}
+                          >
+                            {row.pitStopLap !== null ? `Ende Rd. ${row.pitStopLap}` : 'Rennende'}
+                          </td>
+                          <td
+                            style={{
+                              padding: '12px 14px',
+                              textAlign: 'right',
+                              fontFamily: '"JetBrains Mono", monospace',
+                              fontWeight: 700,
+                              color: row.refuelLitersAtStop !== null ? '#ffffff' : '#64748b',
+                            }}
+                          >
+                            {row.refuelLitersAtStop !== null ? `+${row.refuelLitersAtStop.toFixed(1)} L` : '—'}
+                          </td>
+                          <td style={{ padding: '12px 14px' }}>
+                            <div style={{ fontWeight: 700, color: isTireChange ? '#00c44b' : isDouble ? '#fedd00' : '#cbd5e1' }}>
+                              {row.tireAction}
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#94a3b8', fontFamily: '"JetBrains Mono", monospace' }}>
+                              Aktuell Satz {row.tireSetNumber} · Restkontingent: {row.tiresRemainingAfterStop}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              <div style={{ marginTop: '18px', display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#64748b' }}>
+                <span>Favela Motorsport · Le Mans Ultimate Stint- &amp; Strategie-Rechner</span>
+                <span>Offline-Strategieblatt · Alle Angaben inkl. {config.fuelReserveL} L Sicherheitsreserve</span>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      const ExportSnapshotModal = ({ imageUrl, fileName, sessionType, onClose }) => {
+        const [canShareFile, setCanShareFile] = useState(false);
+
+        useEffect(() => {
+          setCanShareFile(
+            typeof navigator !== 'undefined' &&
+              typeof navigator.share === 'function' &&
+              typeof navigator.canShare === 'function'
+          );
+        }, []);
+
+        if (!imageUrl) return null;
+
+        const handleDownload = () => {
+          const link = document.createElement('a');
+          link.href = imageUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        };
+
+        const handleNativeShare = async () => {
+          try {
+            const res = await fetch(imageUrl);
+            const blob = await res.blob();
+            const file = new File([blob], fileName, { type: 'image/jpeg' });
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                title: `Favela Motorsport ${sessionType}-Strategie`,
+                text: 'LMU Stint- & Strategie-Plan',
+                files: [file],
+              });
+            } else {
+              handleDownload();
+            }
+          } catch {}
+        };
+
+        return (
+          <div
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-safe pb-safe"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Strategie JPG Vorschau"
+          >
+            <div className="w-full max-w-4xl max-h-[92dvh] flex flex-col rounded-3xl bg-[#0e1618] border border-white/15 shadow-2xl overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-white">Strategie-Snapshot (JPG)</h3>
+                  <p className="text-xs text-slate-400">
+                    Auf iPhone/iPad lange auf das Bild drücken zum Sichern in Fotos, oder direkt teilen.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  aria-label="Vorschau schließen"
+                  className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-2xl bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white transition-colors"
+                >
+                  <XIcon className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-auto p-4 sm:p-6 bg-black/60 flex items-start justify-center">
+                <img
+                  src={imageUrl}
+                  alt="Favela Motorsport LMU Strategie Übersicht"
+                  className="w-full max-w-[900px] h-auto rounded-xl border border-white/10 shadow-xl"
+                />
+              </div>
+
+              <div className="flex flex-wrap items-center justify-end gap-3 px-5 py-4 border-t border-white/10 bg-[#111a1c]">
+                {canShareFile && (
+                  <button
+                    type="button"
+                    onClick={handleNativeShare}
+                    className="min-h-[44px] inline-flex items-center gap-2 rounded-2xl bg-[#162b2d] hover:bg-[#1e3a3d] border border-white/10 px-4 py-2.5 text-sm font-semibold text-white transition-colors"
+                  >
+                    <ShareIcon className="w-4 h-4 text-[#fedd00]" />
+                    <span>Teilen / In Fotos sichern</span>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={handleDownload}
+                  className="min-h-[44px] inline-flex items-center gap-2 rounded-2xl bg-[#009739] hover:bg-[#00ae42] px-5 py-2.5 text-sm font-semibold text-white transition-colors"
+                >
+                  <DownloadIcon className="w-4 h-4" />
+                  <span>Als JPG herunterladen</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      // =========================================================================
+      // 7. HAUPTANWENDUNG (LOCALSTORAGE, UI & STATE)
+      // =========================================================================
+
+      const STORAGE_UNLOCKED_KEY = 'favela_lmu_unlocked_v1';
+      const STORAGE_CONFIG_KEY = 'favela_lmu_config_v1';
+
+      const DEFAULT_CONFIG = {
+        trackId: 'lemans',
+        carId: 'ferrari-499p',
+        sessionType: 'Race',
+        durationPresetId: '6h',
+        customDurationMinutes: 180,
+        startTimeHHMM: '14:00',
+        weatherId: 'dry',
+        tireQuota: 6,
+        fuelReserveL: 2.0,
+        pitStopFuelTimeSec: 28,
+        pitStopTireTimeSec: 12,
+        manualFuelPerLapL: null,
+        manualTankVolumeL: null,
+        manualLapTimeSec: null,
+        drivers: [
+          { id: '10', active: true, priority: 'quali_start' },
+          { id: '17', active: true, priority: 'standard' },
+          { id: '31', active: true, priority: 'final_stint' },
+          { id: '45', active: false, priority: 'standard' },
+          { id: '79', active: false, priority: 'standard' },
+          { id: '212', active: false, priority: 'standard' },
+        ],
+      };
+
+      function loadSavedUnlocked() {
+        try {
+          return localStorage.getItem(STORAGE_UNLOCKED_KEY) === 'true';
+        } catch {
+          return false;
+        }
+      }
+
+      function loadSavedConfig() {
+        try {
+          const raw = localStorage.getItem(STORAGE_CONFIG_KEY);
+          if (!raw) return DEFAULT_CONFIG;
+          const parsed = JSON.parse(raw);
+          const mergedDrivers = TEAM_DRIVERS.map((td) => {
+            const existing = parsed.drivers?.find((d) => d.id === td.id);
+            if (existing) return existing;
+            const def = DEFAULT_CONFIG.drivers.find((d) => d.id === td.id);
+            return def || { id: td.id, active: false, priority: 'standard' };
+          });
+          return { ...DEFAULT_CONFIG, ...parsed, drivers: mergedDrivers };
+        } catch {
+          return DEFAULT_CONFIG;
+        }
+      }
+
+      function App() {
+        const [isUnlocked, setIsUnlocked] = useState(loadSavedUnlocked);
+        const [config, setConfig] = useState(loadSavedConfig);
+        const [classFilter, setClassFilter] = useState('Alle');
+        const [isExporting, setIsExporting] = useState(false);
+        const [exportError, setExportError] = useState(null);
+        const [previewImageUrl, setPreviewImageUrl] = useState(null);
+        const [exportFileName, setExportFileName] = useState('favela-lmu-strategie.jpg');
+
+        const exportCaptureRef = useRef(null);
+
+        useEffect(() => {
+          try {
+            localStorage.setItem(STORAGE_UNLOCKED_KEY, isUnlocked ? 'true' : 'false');
+          } catch {}
+        }, [isUnlocked]);
+
+        useEffect(() => {
+          try {
+            localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(config));
+          } catch {}
+        }, [config]);
+
+        const selectedTrack = useMemo(
+          () => LMU_TRACKS.find((t) => t.id === config.trackId) || LMU_TRACKS[0],
+          [config.trackId]
+        );
+        const selectedCar = useMemo(
+          () => LMU_CARS.find((c) => c.id === config.carId) || LMU_CARS[0],
+          [config.carId]
+        );
+        const selectedWeather = useMemo(
+          () => WEATHER_CONDITIONS.find((w) => w.id === config.weatherId) || WEATHER_CONDITIONS[0],
+          [config.weatherId]
+        );
+
+        const durationMinutes = useMemo(() => {
+          if (config.durationPresetId === 'custom') {
+            return Math.max(5, Math.min(2880, config.customDurationMinutes || 60));
+          }
+          return DURATION_PRESETS.find((p) => p.id === config.durationPresetId)?.minutes || 360;
+        }, [config.durationPresetId, config.customDurationMinutes]);
+
+        const strategy = useMemo(
+          () => calculateStrategy(config, selectedTrack, selectedCar, selectedWeather, durationMinutes),
+          [config, selectedTrack, selectedCar, selectedWeather, durationMinutes]
+        );
+
+        const handleTrackChange = (trackId) => {
+          setConfig((prev) => ({ ...prev, trackId, manualFuelPerLapL: null, manualLapTimeSec: null }));
+        };
+
+        const handleCarChange = (carId) => {
+          setConfig((prev) => ({
+            ...prev,
+            carId,
+            manualFuelPerLapL: null,
+            manualTankVolumeL: null,
+            manualLapTimeSec: null,
+          }));
+        };
+
+        const handleWeatherChange = (weatherId) => {
+          setConfig((prev) => ({ ...prev, weatherId, manualFuelPerLapL: null, manualLapTimeSec: null }));
+        };
+
+        const toggleDriverActive = (driverId) => {
+          setConfig((prev) => ({
+            ...prev,
+            drivers: prev.drivers.map((d) => (d.id === driverId ? { ...d, active: !d.active } : d)),
+          }));
+        };
+
+        const updateDriverPriority = (driverId, priority) => {
+          setConfig((prev) => ({
+            ...prev,
+            drivers: prev.drivers.map((d) => (d.id === driverId ? { ...d, priority } : d)),
+          }));
+        };
+
+        const handleExportJPG = async () => {
+          if (!exportCaptureRef.current || isExporting) return;
+          setIsExporting(true);
+          setExportError(null);
+          try {
+            await new Promise((resolve) => window.requestAnimationFrame(() => resolve(true)));
+            const canvas = await window.html2canvas(exportCaptureRef.current, {
+              scale: 2.5,
+              backgroundColor: '#050809',
+              useCORS: true,
+              logging: false,
+              onclone: (clonedDoc) => {
+                const styles = clonedDoc.querySelectorAll('style, link[rel="stylesheet"]');
+                styles.forEach((node) => node.remove());
+              },
+            });
+            const jpegUrl = canvas.toDataURL('image/jpeg', 0.95);
+            const fileName = `favela-lmu-${selectedTrack.id}-${config.sessionType.toLowerCase()}.jpg`;
+            setExportFileName(fileName);
+            setPreviewImageUrl(jpegUrl);
+
+            const link = document.createElement('a');
+            link.href = jpegUrl;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          } catch {
+            setExportError('JPG-Export konnte nicht erstellt werden. Bitte erneut versuchen.');
+          } finally {
+            setIsExporting(false);
+          }
+        };
+
+        if (!isUnlocked) {
+          return <PinLockScreen onUnlock={() => setIsUnlocked(true)} />;
+        }
+
+        const activeDriversCount = config.drivers.filter((d) => d.active).length;
+        const filteredCarsByClass = CAR_CLASSES.filter((cls) => classFilter === 'Alle' || cls === classFilter);
+        const displayLapSec = strategy.effectiveLapTimeSec;
+        const lapMins = Math.floor(displayLapSec / 60);
+        const lapSecs = Number((displayLapSec - lapMins * 60).toFixed(1));
+
+        const updateLapTimeMinSec = (newMin, newSec) => {
+          const clampedMin = Math.max(0, Math.min(10, newMin));
+          const clampedSec = Math.max(0, Math.min(59.9, newSec));
+          const total = Number((clampedMin * 60 + clampedSec).toFixed(1));
+          if (total >= 30) {
+            setConfig((prev) => ({ ...prev, manualLapTimeSec: total }));
+          }
+        };
+
+        return (
+          <div
+            className="min-h-dvh bg-black text-slate-100 pb-14 pb-safe"
+            style={{
+              backgroundImage:
+                'radial-gradient(ellipse 80% 45% at 50% 0%, rgba(22, 43, 45, 0.55) 0%, rgba(0, 0, 0, 1) 70%)',
+            }}
+          >
+            {/* Header */}
+            <header className="sticky top-0 z-30 pt-safe bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-4 sm:gap-8">
+                <a
+                  href="#top"
+                  className="flex items-center gap-3 whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fedd00] rounded-xl"
+                >
+                  <FavelaLogo size="sm" />
+                  <span className="font-display text-base sm:text-lg font-bold tracking-tight text-white">
+                    Favela Motorsport
+                  </span>
+                </a>
+
+                <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-400">
+                  <a href="#konfiguration" className="hover:text-white transition-colors whitespace-nowrap shrink-0">
+                    Setup &amp; Verbrauch
+                  </a>
+                  <a href="#fahrer" className="hover:text-white transition-colors whitespace-nowrap shrink-0">
+                    Fahrer &amp; Rollen
+                  </a>
+                  <a href="#stint-plan" className="hover:text-white transition-colors whitespace-nowrap shrink-0">
+                    Stint-Tabelle
+                  </a>
+                </nav>
+
+                <div className="flex items-center gap-2.5 shrink-0">
+                  <PWAInstallButton />
+                  <button
+                    type="button"
+                    onClick={() => setIsUnlocked(false)}
+                    className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-white/[0.07] hover:bg-white/[0.14] border border-white/[0.09] px-3.5 py-2 text-xs font-semibold text-white transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fedd00]"
+                  >
+                    <LockIcon className="w-3.5 h-3.5 text-[#fedd00]" />
+                    <span>Sperren</span>
+                  </button>
+                </div>
+              </div>
+            </header>
+
+            <main id="top" className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 space-y-8">
+              {/* Session & Export Toolbar */}
+              <section className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 pb-6 border-b border-white/[0.08]">
+                <div>
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 mb-1.5">
+                    <span>Le Mans Ultimate</span>
+                    <span aria-hidden="true">·</span>
+                    <span>{selectedTrack.shortName}</span>
+                    <span aria-hidden="true">·</span>
+                    <span>{selectedCar.name}</span>
+                  </div>
+                  <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                    Stint- &amp; Strategie-Rechner
+                  </h1>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                  <div className="grid grid-cols-3 p-1 rounded-2xl bg-[#111a1c] border border-white/[0.08]" role="group" aria-label="Session-Typ">
+                    {['Training', 'Qualifying', 'Race'].map((sType) => {
+                      const isActive = config.sessionType === sType;
+                      return (
+                        <button
+                          key={sType}
+                          type="button"
+                          onClick={() => setConfig((prev) => ({ ...prev, sessionType: sType }))}
+                          className={`min-h-[44px] px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-150 whitespace-nowrap ${
+                            isActive ? 'bg-[#009739] text-white shadow-sm' : 'text-slate-400 hover:text-white'
+                          }`}
+                        >
+                          {sType}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleExportJPG}
+                    disabled={isExporting}
+                    className="min-h-[48px] inline-flex items-center justify-center gap-2.5 rounded-2xl bg-[#fedd00] hover:bg-[#ffe433] active:scale-[0.98] disabled:opacity-60 px-5 py-2.5 text-sm font-bold text-black transition-all duration-150 whitespace-nowrap shrink-0 shadow-lg shadow-[#fedd00]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                  >
+                    <CameraIcon className="w-4 h-4 shrink-0" />
+                    <span>{isExporting ? 'Erstelle JPG...' : 'Strategie als Bild (JPG) speichern'}</span>
+                  </button>
+                </div>
+              </section>
+
+              {exportError && (
+                <div className="rounded-2xl bg-rose-950/60 border border-rose-500/30 px-4 py-3 text-sm text-rose-200">
+                  {exportError}
+                </div>
+              )}
+
+              {/* KPI-Leiste */}
+              <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div className="rounded-2xl bg-[#111a1c] border border-white/[0.08] p-4 sm:p-5">
+                  <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+                    <span>Verbrauch / Runde</span>
+                    {config.manualFuelPerLapL !== null && <span className="text-[#fedd00] font-medium">Manuell</span>}
+                  </div>
+                  <div className="font-mono text-2xl sm:text-3xl font-bold text-white tabular-nums">
+                    {strategy.effectiveFuelPerLapL.toFixed(2)} <span className="text-base font-normal text-slate-400">L</span>
+                  </div>
+                  <div className="mt-1.5 text-xs text-slate-400 tabular-nums">
+                    Tank {strategy.effectiveTankVolumeL} L · Res. {config.fuelReserveL.toFixed(1)} L
+                  </div>
+                </div>
+
+                <div className="rounded-2xl bg-[#111a1c] border border-white/[0.08] p-4 sm:p-5">
+                  <div className="text-xs text-slate-400 mb-2">Max. Stint-Länge</div>
+                  <div className="font-mono text-2xl sm:text-3xl font-bold text-[#00c44b] tabular-nums">
+                    {strategy.maxLapsPerStint} <span className="text-base font-normal text-slate-300">Runden</span>
+                  </div>
+                  <div className="mt-1.5 text-xs text-slate-400 tabular-nums">
+                    ~{Math.round(strategy.stintDurationMaxSec / 60)} Min · Rd. {formatLapTime(strategy.effectiveLapTimeSec)}
+                  </div>
+                </div>
+
+                <div className="rounded-2xl bg-[#111a1c] border border-white/[0.08] p-4 sm:p-5">
+                  <div className="text-xs text-slate-400 mb-2">Boxenstopps &amp; Reifen</div>
+                  <div className="font-mono text-2xl sm:text-3xl font-bold text-white tabular-nums">
+                    {strategy.totalPitStops}{' '}
+                    <span className="text-base font-normal text-slate-400">
+                      {strategy.totalPitStops === 1 ? 'Stopp' : 'Stopps'}
+                    </span>
+                  </div>
+                  <div className="mt-1.5 text-xs text-slate-400 tabular-nums">
+                    {strategy.tireSetsUsed} von {config.tireQuota} Reifensätzen · Rest: {strategy.tireSetsRemaining}
+                  </div>
+                </div>
+
+                <div className="rounded-2xl bg-[#111a1c] border border-white/[0.08] p-4 sm:p-5">
+                  <div className="text-xs text-slate-400 mb-2">Session-Volumen</div>
+                  <div className="font-mono text-2xl sm:text-3xl font-bold text-[#fedd00] tabular-nums">
+                    ~{strategy.estimatedTotalLaps} <span className="text-base font-normal text-slate-300">Runden</span>
+                  </div>
+                  <div className="mt-1.5 text-xs text-slate-400 tabular-nums">
+                    {strategy.stints.length} Stints · Sprit ~{strategy.totalFuelNeededL.toFixed(0)} L
+                  </div>
+                </div>
+              </section>
+
+              {/* 2-Spalten Konfiguration & Fahrer */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                {/* Linke Spalte: Strecke, Auto, Dauer, Wetter, Reifen, Overrides */}
+                <section id="konfiguration" className="lg:col-span-7 rounded-3xl bg-[#0e1618] border border-white/[0.08] p-5 sm:p-6 space-y-6">
+                  <div className="flex items-center justify-between border-b border-white/[0.07] pb-4">
+                    <div className="flex items-center gap-2.5">
+                      <WrenchIcon className="w-5 h-5 text-[#009739]" />
+                      <h2 className="font-display text-lg font-bold text-white">Strecke, Fahrzeug &amp; Rennparameter</h2>
+                    </div>
+                    <span className="text-xs text-slate-400 font-mono">LMU Datenbank</span>
+                  </div>
+
+                  {/* Strecke */}
+                  <div className="space-y-2">
+                    <label htmlFor="track-select" className="block text-sm font-semibold text-slate-200">
+                      Strecke
+                    </label>
+                    <select
+                      id="track-select"
+                      value={config.trackId}
+                      onChange={(e) => handleTrackChange(e.target.value)}
+                      className="w-full min-h-[48px] rounded-2xl bg-[#162b2d]/70 border border-white/10 px-4 py-2.5 text-sm sm:text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-[#009739]"
+                    >
+                      {LMU_TRACKS.map((t) => (
+                        <option key={t.id} value={t.id} className="bg-[#0e1618] text-white">
+                          {t.name} — {t.lengthKm.toFixed(3)} km (Faktor {t.fuelFactor.toFixed(2)})
+                        </option>
+                      ))}
+                    </select>
+                    <div className="flex items-center gap-2 text-xs text-slate-400 tabular-nums">
+                      <span>Distanz {selectedTrack.lengthKm.toFixed(3)} km</span>
+                      <span aria-hidden="true">·</span>
+                      <span>Streckenfaktor {selectedTrack.fuelFactor.toFixed(2)}</span>
+                    </div>
+                  </div>
+
+                  {/* Fahrzeug + Klassenfilter */}
+                  <div className="space-y-2.5">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <label htmlFor="car-select" className="block text-sm font-semibold text-slate-200">
+                        Fahrzeug
+                      </label>
+                      <div className="flex items-center gap-1 p-1 rounded-xl bg-black/50 border border-white/[0.07]">
+                        {['Alle', ...CAR_CLASSES].map((cls) => (
+                          <button
+                            key={cls}
+                            type="button"
+                            onClick={() => {
+                              setClassFilter(cls);
+                              if (cls !== 'Alle' && selectedCar.carClass !== cls) {
+                                const firstInClass = LMU_CARS.find((c) => c.carClass === cls);
+                                if (firstInClass) handleCarChange(firstInClass.id);
+                              }
+                            }}
+                            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap ${
+                              classFilter === cls ? 'bg-[#282475] text-white' : 'text-slate-400 hover:text-white'
+                            }`}
+                          >
+                            {cls}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <select
+                      id="car-select"
+                      value={config.carId}
+                      onChange={(e) => handleCarChange(e.target.value)}
+                      className="w-full min-h-[48px] rounded-2xl bg-[#162b2d]/70 border border-white/10 px-4 py-2.5 text-sm sm:text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-[#009739]"
+                    >
+                      {filteredCarsByClass.map((cls) => (
+                        <optgroup key={cls} label={cls} className="bg-[#0a1012] text-[#fedd00]">
+                          {LMU_CARS.filter((c) => c.carClass === cls).map((c) => (
+                            <option key={c.id} value={c.id} className="bg-[#0e1618] text-white">
+                              {c.name} ({c.tankCapacityL} L | {c.baseConsumptionLPerKm.toFixed(2)} L/km)
+                            </option>
+                          ))}
+                        </optgroup>
+                      ))}
+                    </select>
+
+                    <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 tabular-nums">
+                      <span>Klasse {selectedCar.carClass}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>Serientank {selectedCar.tankCapacityL} L</span>
+                      <span aria-hidden="true">·</span>
+                      <span>Basisverbrauch {selectedCar.baseConsumptionLPerKm.toFixed(2)} L/km</span>
+                    </div>
+                  </div>
+
+                  {/* Dauer & Startzeit */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label htmlFor="duration-select" className="block text-sm font-semibold text-slate-200">
+                        Session-Dauer
+                      </label>
+                      <select
+                        id="duration-select"
+                        value={config.durationPresetId}
+                        onChange={(e) => setConfig((prev) => ({ ...prev, durationPresetId: e.target.value }))}
+                        className="w-full min-h-[48px] rounded-2xl bg-[#162b2d]/70 border border-white/10 px-4 py-2.5 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-[#009739]"
+                      >
+                        {DURATION_PRESETS.map((p) => (
+                          <option key={p.id} value={p.id} className="bg-[#0e1618] text-white">
+                            {p.label}
+                          </option>
+                        ))}
+                      </select>
+                      {config.durationPresetId === 'custom' && (
+                        <div className="flex items-center gap-2 pt-1">
+                          <input
+                            type="number"
+                            min={5}
+                            max={2880}
+                            value={config.customDurationMinutes}
+                            onChange={(e) =>
+                              setConfig((prev) => ({
+                                ...prev,
+                                customDurationMinutes: Math.max(5, Number(e.target.value) || 60),
+                              }))
+                            }
+                            aria-label="Benutzerdefinierte Dauer in Minuten"
+                            className="w-full min-h-[44px] rounded-xl bg-black/60 border border-white/10 px-3 py-2 font-mono text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#009739]"
+                          />
+                          <span className="text-xs text-slate-400 shrink-0">Minuten</span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <label htmlFor="start-time-input" className="block text-sm font-semibold text-slate-200">
+                        Echtzeit-Startzeit
+                      </label>
+                      <div className="relative">
+                        <ClockIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        <input
+                          id="start-time-input"
+                          type="time"
+                          value={config.startTimeHHMM}
+                          onChange={(e) =>
+                            setConfig((prev) => ({ ...prev, startTimeHHMM: e.target.value || '14:00' }))
+                          }
+                          className="w-full min-h-[48px] rounded-2xl bg-[#162b2d]/70 border border-white/10 pl-10 pr-4 py-2.5 font-mono text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-[#009739]"
+                        />
+                      </div>
+                      <p className="text-xs text-slate-400">Rechnet alle Stint-Wechsel in Lokalzeit um.</p>
+                    </div>
+                  </div>
+
+                  {/* Wetter */}
+                  <div className="space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-slate-200">Wetterbedingungen</span>
+                      <span className="text-xs text-slate-400">Empfehlung: {selectedWeather.tireRecommendation}</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                      {WEATHER_CONDITIONS.map((w) => {
+                        const isActive = config.weatherId === w.id;
+                        const WeatherIcon =
+                          w.id === 'dry' ? SunIcon : w.id === 'light_rain' ? CloudSunIcon : CloudRainIcon;
+                        return (
+                          <button
+                            key={w.id}
+                            type="button"
+                            onClick={() => handleWeatherChange(w.id)}
+                            className={`min-h-[54px] rounded-2xl border px-3.5 py-2.5 text-left transition-all duration-150 flex items-center gap-3 ${
+                              isActive
+                                ? 'bg-[#162b2d] border-[#009739] text-white'
+                                : 'bg-black/40 border-white/[0.08] text-slate-300 hover:border-white/20'
+                            }`}
+                          >
+                            <WeatherIcon className={`w-5 h-5 shrink-0 ${isActive ? 'text-[#fedd00]' : 'text-slate-400'}`} />
+                            <div className="min-w-0">
+                              <div className="text-xs sm:text-sm font-semibold truncate">{w.shortLabel}</div>
+                              <div className="text-[11px] text-slate-400 truncate">{w.tireRecommendation}</div>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Reifenkontingent & Reserve */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-white/[0.07]">
+                    <div className="space-y-2">
+                      <label htmlFor="tire-quota-input" className="block text-sm font-semibold text-slate-200">
+                        Reifenkontingent (Sätze)
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setConfig((prev) => ({ ...prev, tireQuota: Math.max(1, prev.tireQuota - 1) }))}
+                          aria-label="Reifenkontingent verringern"
+                          className="min-h-[44px] min-w-[44px] rounded-xl bg-white/[0.07] hover:bg-white/[0.14] border border-white/10 font-mono text-lg font-bold text-white"
+                        >
+                          −
+                        </button>
+                        <input
+                          id="tire-quota-input"
+                          type="number"
+                          min={1}
+                          max={40}
+                          value={config.tireQuota}
+                          onChange={(e) =>
+                            setConfig((prev) => ({
+                              ...prev,
+                              tireQuota: Math.max(1, Math.min(40, parseInt(e.target.value, 10) || 1)),
+                            }))
+                          }
+                          className="w-full min-h-[44px] text-center rounded-xl bg-[#162b2d]/60 border border-white/10 px-3 font-mono text-base font-bold text-white focus:outline-none focus:ring-2 focus:ring-[#009739]"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setConfig((prev) => ({ ...prev, tireQuota: Math.min(40, prev.tireQuota + 1) }))}
+                          aria-label="Reifenkontingent erhöhen"
+                          className="min-h-[44px] min-w-[44px] rounded-xl bg-white/[0.07] hover:bg-white/[0.14] border border-white/10 font-mono text-lg font-bold text-white"
+                        >
+                          +
+                        </button>
+                      </div>
+                      <p className="text-xs text-slate-400">Verteilt Wechsel &amp; Double-Stints automatisch.</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label htmlFor="fuel-reserve-input" className="block text-sm font-semibold text-slate-200">
+                        Sicherheitsreserve (Liter)
+                      </label>
+                      <div className="relative">
+                        <FuelIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        <input
+                          id="fuel-reserve-input"
+                          type="number"
+                          step="0.5"
+                          min={0}
+                          max={15}
+                          value={config.fuelReserveL}
+                          onChange={(e) =>
+                            setConfig((prev) => ({
+                              ...prev,
+                              fuelReserveL: Math.max(0, Math.min(15, parseFloat(e.target.value) || 0)),
+                            }))
+                          }
+                          className="w-full min-h-[44px] rounded-xl bg-[#162b2d]/60 border border-white/10 pl-10 pr-10 font-mono text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#009739]"
+                        />
+                        <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-mono">L</span>
+                      </div>
+                      <p className="text-xs text-slate-400">Puffer für In-Lap &amp; Formation-Lap.</p>
+                    </div>
+                  </div>
+
+                  {/* Manuelle Überschreibungen + Reset */}
+                  <div className="pt-4 border-t border-white/[0.07] space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-white">Feinabstimmung (Manuell überschreibbar)</span>
+                      {(config.manualFuelPerLapL !== null ||
+                        config.manualTankVolumeL !== null ||
+                        config.manualLapTimeSec !== null) && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setConfig((prev) => ({
+                              ...prev,
+                              manualFuelPerLapL: null,
+                              manualTankVolumeL: null,
+                              manualLapTimeSec: null,
+                            }))
+                          }
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#fedd00] hover:underline"
+                        >
+                          <RotateCcwIcon className="w-3.5 h-3.5" />
+                          <span>Alle zurücksetzen</span>
+                        </button>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <label htmlFor="override-fuel" className="text-xs font-medium text-slate-300">
+                            Verbrauch / Rd (L)
+                          </label>
+                          {config.manualFuelPerLapL !== null && (
+                            <button
+                              type="button"
+                              onClick={() => setConfig((prev) => ({ ...prev, manualFuelPerLapL: null }))}
+                              className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#fedd00]"
+                            >
+                              <RotateCcwIcon className="w-3 h-3" />
+                              Reset
+                            </button>
+                          )}
+                        </div>
+                        <input
+                          id="override-fuel"
+                          type="number"
+                          step="0.05"
+                          min={0.5}
+                          max={25}
+                          value={config.manualFuelPerLapL !== null ? config.manualFuelPerLapL : strategy.autoFuelPerLapL}
+                          onChange={(e) => {
+                            const val = parseFloat(e.target.value);
+                            setConfig((prev) => ({ ...prev, manualFuelPerLapL: isNaN(val) ? null : val }));
+                          }}
+                          className={`w-full min-h-[44px] rounded-xl border px-3 font-mono text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#009739] ${
+                            config.manualFuelPerLapL !== null ? 'bg-[#282475]/40 border-[#fedd00]/50' : 'bg-black/50 border-white/10'
+                          }`}
+                        />
+                        <div className="text-[11px] text-slate-500 font-mono">Auto: {strategy.autoFuelPerLapL.toFixed(2)} L</div>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <label htmlFor="override-tank" className="text-xs font-medium text-slate-300">
+                            Tankvolumen (L)
+                          </label>
+                          {config.manualTankVolumeL !== null && (
+                            <button
+                              type="button"
+                              onClick={() => setConfig((prev) => ({ ...prev, manualTankVolumeL: null }))}
+                              className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#fedd00]"
+                            >
+                              <RotateCcwIcon className="w-3 h-3" />
+                              Reset
+                            </button>
+                          )}
+                        </div>
+                        <input
+                          id="override-tank"
+                          type="number"
+                          step="1"
+                          min={10}
+                          max={150}
+                          value={config.manualTankVolumeL !== null ? config.manualTankVolumeL : selectedCar.tankCapacityL}
+                          onChange={(e) => {
+                            const val = parseFloat(e.target.value);
+                            setConfig((prev) => ({ ...prev, manualTankVolumeL: isNaN(val) ? null : val }));
+                          }}
+                          className={`w-full min-h-[44px] rounded-xl border px-3 font-mono text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#009739] ${
+                            config.manualTankVolumeL !== null ? 'bg-[#282475]/40 border-[#fedd00]/50' : 'bg-black/50 border-white/10'
+                          }`}
+                        />
+                        <div className="text-[11px] text-slate-500 font-mono">Auto: {selectedCar.tankCapacityL} L</div>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-medium text-slate-300">Rundenzeit (Min : Sek)</span>
+                          {config.manualLapTimeSec !== null && (
+                            <button
+                              type="button"
+                              onClick={() => setConfig((prev) => ({ ...prev, manualLapTimeSec: null }))}
+                              className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#fedd00]"
+                            >
+                              <RotateCcwIcon className="w-3 h-3" />
+                              Reset
+                            </button>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <input
+                            type="number"
+                            min={0}
+                            max={10}
+                            aria-label="Rundenzeit Minuten"
+                            value={lapMins}
+                            onChange={(e) => updateLapTimeMinSec(parseInt(e.target.value, 10) || 0, lapSecs)}
+                            className={`w-16 min-h-[44px] text-center rounded-xl border px-2 font-mono text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#009739] ${
+                              config.manualLapTimeSec !== null ? 'bg-[#282475]/40 border-[#fedd00]/50' : 'bg-black/50 border-white/10'
+                            }`}
+                          />
+                          <span className="font-mono text-slate-400 font-bold">:</span>
+                          <input
+                            type="number"
+                            step="0.5"
+                            min={0}
+                            max={59.9}
+                            aria-label="Rundenzeit Sekunden"
+                            value={lapSecs}
+                            onChange={(e) => updateLapTimeMinSec(lapMins, parseFloat(e.target.value) || 0)}
+                            className={`w-full min-h-[44px] text-center rounded-xl border px-2 font-mono text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#009739] ${
+                              config.manualLapTimeSec !== null ? 'bg-[#282475]/40 border-[#fedd00]/50' : 'bg-black/50 border-white/10'
+                            }`}
+                          />
+                        </div>
+                        <div className="text-[11px] text-slate-500 font-mono">Auto: {formatLapTime(strategy.autoLapTimeSec)}</div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Rechte Spalte: Fahrer-Auswahl & Rollen */}
+                <section id="fahrer" className="lg:col-span-5 rounded-3xl bg-[#0e1618] border border-white/[0.08] p-5 sm:p-6 space-y-5">
+                  <div className="flex items-center justify-between border-b border-white/[0.07] pb-4">
+                    <div className="flex items-center gap-2.5">
+                      <UsersIcon className="w-5 h-5 text-[#fedd00]" />
+                      <h2 className="font-display text-lg font-bold text-white">Fahrer-Auswahl &amp; Rollen</h2>
+                    </div>
+                    <span className="text-xs text-slate-400 font-mono tabular-nums">
+                      {activeDriversCount} / {TEAM_DRIVERS.length} aktiv
+                    </span>
+                  </div>
+
+                  <div className="space-y-3">
+                    {TEAM_DRIVERS.map((driver) => {
+                      const cfg = config.drivers.find((d) => d.id === driver.id);
+                      const isActive = cfg?.active ?? false;
+                      const priority = cfg?.priority ?? 'standard';
+                      const summary = strategy.driverSummaries.find((s) => s.driver.id === driver.id);
+
+                      return (
+                        <div
+                          key={driver.id}
+                          className={`rounded-2xl border transition-all duration-150 ${
+                            isActive ? 'bg-[#132225] border-[#009739]/60' : 'bg-black/40 border-white/[0.07] opacity-75 hover:opacity-100'
+                          }`}
+                        >
+                          <button
+                            type="button"
+                            onClick={() => toggleDriverActive(driver.id)}
+                            className="w-full min-h-[56px] px-4 py-3 flex items-center justify-between gap-3 text-left"
+                          >
+                            <div className="flex items-center gap-3 min-w-0">
+                              <span
+                                className={`w-7 h-7 rounded-xl flex items-center justify-center border transition-colors shrink-0 ${
+                                  isActive ? 'bg-[#009739] border-[#009739] text-white' : 'bg-transparent border-white/25 text-transparent'
+                                }`}
+                              >
+                                <CheckIcon className="w-4 h-4" />
+                              </span>
+                              <div className="min-w-0">
+                                <div className="text-sm sm:text-base font-semibold text-white truncate">
+                                  <span className="font-mono text-[#fedd00] mr-1.5">{driver.number}</span>
+                                  {driver.name}
+                                </div>
+                                {isActive && summary ? (
+                                  <div className="text-xs text-slate-400 font-mono tabular-nums mt-0.5">
+                                    {summary.priority === 'quali_only'
+                                      ? 'Nur Qualifying-Einsatz'
+                                      : `${summary.stintCount} Stints · ${summary.totalLaps} Rd · ${formatDurationHMM(summary.totalDriveTimeSec)} (${summary.sharePercent}%)`}
+                                  </div>
+                                ) : (
+                                  <div className="text-xs text-slate-500 mt-0.5">Tippen zum Aktivieren</div>
+                                )}
+                              </div>
+                            </div>
+                          </button>
+
+                          {isActive && (
+                            <div className="px-4 pb-3.5 pt-1 border-t border-white/[0.06] flex items-center justify-between gap-3">
+                              <label htmlFor={`priority-${driver.id}`} className="text-xs font-medium text-slate-400 shrink-0">
+                                Priorität:
+                              </label>
+                              <select
+                                id={`priority-${driver.id}`}
+                                value={priority}
+                                onChange={(e) => updateDriverPriority(driver.id, e.target.value)}
+                                className="w-full min-h-[44px] rounded-xl bg-black/60 border border-white/10 px-3 py-1.5 text-xs sm:text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-[#fedd00]"
+                              >
+                                {PRIORITY_OPTIONS.map((opt) => (
+                                  <option key={opt.value} value={opt.value} className="bg-[#0e1618] text-white">
+                                    {opt.label}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </section>
+              </div>
+
+              {/* Warnungen */}
+              {strategy.warnings.length > 0 && (
+                <div className="rounded-2xl bg-[#1e1a0c] border border-[#fedd00]/35 px-4 py-3.5 flex items-start gap-3">
+                  <ShieldAlertIcon className="w-5 h-5 text-[#fedd00] shrink-0 mt-0.5" />
+                  <div className="space-y-1 text-sm text-amber-100">
+                    {strategy.warnings.map((w, idx) => (
+                      <p key={idx}>{w}</p>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Stint- & Boxenstopp-Tabelle */}
+              <section id="stint-plan" className="rounded-3xl bg-[#0e1618] border border-white/[0.08] overflow-hidden">
+                <div className="px-5 sm:px-6 py-4 sm:py-5 bg-[#162b2d]/60 border-b border-white/[0.08] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <TimerIcon className="w-5 h-5 text-[#009739]" />
+                      <h2 className="font-display text-lg sm:text-xl font-bold text-white">Stint- &amp; Boxenstopp-Strategie</h2>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-300 mt-1 tabular-nums">
+                      {config.sessionType} · {strategy.stints.length} Stints · {strategy.totalPitStops} Boxenstopps · Reifensätze:{' '}
+                      {strategy.tireSetsUsed}/{config.tireQuota}
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleExportJPG}
+                    disabled={isExporting}
+                    className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-2xl bg-[#009739] hover:bg-[#00ae42] active:scale-[0.98] px-4 py-2 text-xs sm:text-sm font-semibold text-white transition-all whitespace-nowrap shrink-0"
+                  >
+                    <CameraIcon className="w-4 h-4" />
+                    <span>{isExporting ? 'Export läuft...' : 'Als JPG speichern'}</span>
+                  </button>
+                </div>
+
+                {/* Desktop-Tabelle */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="w-full border-collapse text-left">
+                    <thead>
+                      <tr className="bg-black/40 border-b border-white/[0.08] text-xs font-semibold text-slate-400">
+                        <th className="py-3.5 px-5">Stint-Nr.</th>
+                        <th className="py-3.5 px-4">Fahrer</th>
+                        <th className="py-3.5 px-4">Uhrzeit / Rennzeit</th>
+                        <th className="py-3.5 px-4 text-right">Boxenstopp-Runde</th>
+                        <th className="py-3.5 px-4 text-right">Nachzutanken</th>
+                        <th className="py-3.5 px-5">Reifenwechsel &amp; Restkontingent</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/[0.06]">
+                      {strategy.stints.map((row) => {
+                        const isTireChange = row.tireAction === 'Reifenwechsel';
+                        const isDouble = row.tireAction === 'Double-Stint (Nur Tanken)';
+                        return (
+                          <tr key={row.stintNumber} className="hover:bg-white/[0.03] transition-colors">
+                            <td className="py-3.5 px-5 font-mono tabular-nums">
+                              <div className="text-sm font-bold text-white">Stint {row.stintNumber}</div>
+                              <div className="text-xs text-slate-400">
+                                {row.lapsInStint} Rd ({row.startLap}–{row.endLap})
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4">
+                              {row.driver ? (
+                                <div>
+                                  <div className="text-sm font-semibold text-white">
+                                    <span className="font-mono text-[#fedd00] mr-1.5">{row.driver.number}</span>
+                                    {row.driver.name}
+                                  </div>
+                                  {row.isDoubleStintContinuation && (
+                                    <div className="text-xs text-[#00c44b] font-medium">Double-Stint Fahrer</div>
+                                  )}
+                                </div>
+                              ) : (
+                                <span className="text-xs text-slate-500">Kein Fahrer aktiv</span>
+                              )}
+                            </td>
+                            <td className="py-3.5 px-4 font-mono tabular-nums">
+                              <div className="text-sm font-medium text-slate-100">
+                                {row.wallClockStart} – {row.wallClockEnd}
+                              </div>
+                              <div className="text-xs text-slate-400">
+                                Rennzeit {formatRaceElapsed(row.raceTimeStartSec)} – {formatRaceElapsed(row.raceTimeEndSec)}
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 text-right font-mono tabular-nums">
+                              {row.pitStopLap !== null ? (
+                                <span className="text-sm font-bold text-[#fedd00]">Ende Rd. {row.pitStopLap}</span>
+                              ) : (
+                                <span className="text-sm font-semibold text-[#00c44b]">Ziel</span>
+                              )}
+                            </td>
+                            <td className="py-3.5 px-4 text-right font-mono tabular-nums">
+                              {row.refuelLitersAtStop !== null ? (
+                                <span className="text-sm font-bold text-white">+{row.refuelLitersAtStop.toFixed(1)} L</span>
+                              ) : (
+                                <span className="text-sm text-slate-500">—</span>
+                              )}
+                            </td>
+                            <td className="py-3.5 px-5">
+                              <div
+                                className={`text-sm font-semibold ${
+                                  isTireChange ? 'text-[#00c44b]' : isDouble ? 'text-[#fedd00]' : 'text-slate-300'
+                                }`}
+                              >
+                                {row.tireAction}
+                              </div>
+                              <div className="text-xs text-slate-400 font-mono tabular-nums">
+                                Satz {row.tireSetNumber} · Restkontingent: {row.tiresRemainingAfterStop}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile Kartenliste */}
+                <div className="md:hidden divide-y divide-white/[0.07]">
+                  {strategy.stints.map((row) => {
+                    const isTireChange = row.tireAction === 'Reifenwechsel';
+                    const isDouble = row.tireAction === 'Double-Stint (Nur Tanken)';
+                    return (
+                      <div key={row.stintNumber} className="p-4 space-y-2.5">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="font-mono text-sm font-bold text-white tabular-nums">
+                            Stint {row.stintNumber} · {row.lapsInStint} Rd ({row.startLap}–{row.endLap})
+                          </div>
+                          <div className="font-mono text-xs text-slate-300 tabular-nums">
+                            {row.wallClockStart} – {row.wallClockEnd}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="text-sm font-semibold text-white">
+                            {row.driver ? (
+                              <>
+                                <span className="font-mono text-[#fedd00] mr-1">{row.driver.number}</span>
+                                {row.driver.name}
+                              </>
+                            ) : (
+                              <span className="text-slate-500">Kein Fahrer</span>
+                            )}
+                          </div>
+                          <div className="font-mono text-xs text-slate-400 tabular-nums">
+                            Rennzeit {formatRaceElapsed(row.raceTimeStartSec)}
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-2 pt-1.5 text-xs">
+                          <div>
+                            <div className="text-slate-400">Boxenstopp</div>
+                            <div className="font-mono font-bold text-[#fedd00] tabular-nums">
+                              {row.pitStopLap !== null ? `Rd. ${row.pitStopLap}` : 'Ziel'}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-slate-400">Nachtanken</div>
+                            <div className="font-mono font-bold text-white tabular-nums">
+                              {row.refuelLitersAtStop !== null ? `+${row.refuelLitersAtStop.toFixed(1)} L` : '—'}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-slate-400">Reifen (Rest {row.tiresRemainingAfterStop})</div>
+                            <div
+                              className={`font-semibold truncate ${
+                                isTireChange ? 'text-[#00c44b]' : isDouble ? 'text-[#fedd00]' : 'text-slate-300'
+                              }`}
+                            >
+                              {isDouble ? 'Nur Tanken' : row.tireAction}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            </main>
+
+            <footer className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+              <span>Favela Motorsport · Le Mans Ultimate Strategie-Rechner</span>
+              <span>Alle Einstellungen lokal im Browser gespeichert · Eigenständige Single-File-HTML-App</span>
+            </footer>
+
+            <ExportSnapshotView
+              captureRef={exportCaptureRef}
+              config={config}
+              track={selectedTrack}
+              car={selectedCar}
+              weather={selectedWeather}
+              durationMinutes={durationMinutes}
+              result={strategy}
+            />
+
+            <ExportSnapshotModal
+              imageUrl={previewImageUrl}
+              fileName={exportFileName}
+              sessionType={config.sessionType}
+              onClose={() => setPreviewImageUrl(null)}
+            />
+
+            <OfflineIndicator />
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
